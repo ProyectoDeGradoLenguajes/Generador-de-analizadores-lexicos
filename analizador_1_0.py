@@ -30,10 +30,22 @@ Retorna el arbol de significado
 """
 def hacerArbol(automata):
     arbol = {}
+    numNodo = 0
+    pareja = 0
     i = 0
     while i < len(automata): 
-        
+        numNodo += 1
+        token = automata[i]
+        make_link(arbol, numNodo, token)
+        pareja += 1
         i += 1
+        if pareja == 2:
+            numNodo += 1
+            make_link(arbol, numNodo, numNodo-1)
+            make_link(arbol, numNodo, numNodo-2)
+            pareja -= 1         
+            
+
     return arbol
     
 """
