@@ -30,6 +30,10 @@ def op_estrellaKleen():
     print ("operacion estrella de kleen")
 def op_superMas():
     print ("operacion super mas")
+def parentesisA():    
+    print ("parentesis que abre")
+def parentesisB():
+    print ("parentesis que cierra")
 
 """
 Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
@@ -38,12 +42,13 @@ Retorna el arbol de significado
 """
 def hacerArbol(automata):
     arbol = {}
-    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas}
+    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parenteisA,')':parenteisB}
     numNodo = 0
     pareja = 0
     i = 0
     while i < len(automata):
         token = automata[i]
+        #busqueda en el diccionario de la funcion que desarrolla la funcion
         if token in dicOperaciones:
             operacion = dicOperaciones[token]
             operacion()
