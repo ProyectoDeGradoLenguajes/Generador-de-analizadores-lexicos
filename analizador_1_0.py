@@ -23,6 +23,14 @@ def dibujarArbol(G,etiqueta):
             g2.edge(str(node1),str(node2))
     filename = g2.render(filename='img/g'+ etiqueta)
 
+#def operaciones(op):
+def op_or():
+    print ("operacion or")
+def op_estrellaKleen():
+    print ("operacion estrella de kleen")
+def op_superMas():
+    print ("operacion super mas")
+
 """
 Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
 Retorna el arbol de significado
@@ -30,15 +38,22 @@ Retorna el arbol de significado
 """
 def hacerArbol(automata):
     arbol = {}
+    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas}
     numNodo = 0
     pareja = 0
     i = 0
-    while i < len(automata): 
-        numNodo += 1
+    while i < len(automata):
         token = automata[i]
-        make_link(arbol, numNodo, token)
-        pareja += 1
+        if token in dicOperaciones:
+            operacion = dicOperaciones[token]
+            operacion()
+        else:
+            #generacion de la relacion simple nodo - token
+            numNodo += 1
+            make_link(arbol, numNodo, token)
+            pareja += 1
         i += 1
+        #operacion and
         if pareja == 2:
             numNodo += 1
             make_link(arbol, numNodo, numNodo-1)
