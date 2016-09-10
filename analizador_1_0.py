@@ -39,7 +39,8 @@ def manejoOperaciones(token,arbol):
     else:
         operacion = dicOperaciones[pilaOperaciones.pop()]
         operacion(arbol)
-
+        pilaOperaciones.append(token)
+        pilaNodos.append(numNodo)
 def op_or(arbol):
     global numNodo
     nodo1 = numNodo
@@ -87,6 +88,7 @@ def hacerArbol(automata):
             make_link(arbol, numNodo, numNodo-1)
             make_link(arbol, numNodo, numNodo-2)
             pareja -= 1  
+    print ()
     manejoOperaciones('fin',arbol)   
     return arbol
     
