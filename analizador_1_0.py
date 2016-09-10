@@ -50,7 +50,18 @@ def op_or(arbol):
     make_link(arbol, numNodo, nodo2)
     make_link(arbol, numNodo, '|'+str(numNodo))
     print ("operacion or")
-def op_estrellaKleen():
+def op_estrellaKleen(arbol):
+    global numNodo
+    nodo2 = numNodo
+    nodo1 = pilaNodos.pop()
+    if len(arbol[nodo1]) > 1:
+        make_link(arbol, nodo1 - 1, '*'+str(nodo1-1))
+    else:
+        make_link(arbol, nodo1, '*'+str(nodo1))
+    numNodo += 1
+    make_link(arbol, numNodo, nodo1)
+    make_link(arbol, numNodo, nodo2)
+    
     print ("operacion estrella de kleen")
 def op_superMas():
     print ("operacion super mas")
@@ -68,7 +79,7 @@ def hacerArbol(automata):
     global numNodo
     global pareja
     global dicOperaciones
-    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB}
+    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB,'fin':0}
     arbol = {}
     i = 0
     while i < len(automata):
