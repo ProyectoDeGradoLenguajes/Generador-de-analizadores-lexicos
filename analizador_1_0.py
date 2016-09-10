@@ -55,7 +55,6 @@ def parentesisB():
 """
 Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
 Retorna el arbol de significado
-
 """
 def hacerArbol(automata):
     global numNodo
@@ -81,8 +80,7 @@ def hacerArbol(automata):
             make_link(arbol, numNodo, numNodo-1)
             make_link(arbol, numNodo, numNodo-2)
             pareja -= 1  
-        if i+1 == len(automata):
-            manejoOperaciones(token)      
+    manejoOperaciones('fin')   
     return arbol
     
 """
