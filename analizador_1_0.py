@@ -59,6 +59,7 @@ def op_or(arbol):
     make_link(arbol, numNodo, nodo2)
     make_link(arbol, numNodo, '|'+str(numNodo))
     print ("operacion or")
+
 def op_estrellaKleen(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
@@ -69,6 +70,13 @@ def op_estrellaKleen(arbol):
     pareja += 1    
     print ("operacion estrella de kleen")
 def op_superMas(arbol):
+    global pareja
+    nodo1 = pilaNodos.pop()
+    if len(arbol[nodo1]) > 1:
+        make_link(arbol, nodo1 - 1, '+'+str(nodo1-1))
+    else:
+        make_link(arbol, nodo1, '+'+str(nodo1))
+    pareja += 1    
     print ("operacion super mas")
 def parentesisA():    
     print ("parentesis que abre")
