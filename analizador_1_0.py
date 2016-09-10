@@ -30,17 +30,26 @@ def dibujarArbol(G,etiqueta):
     filename = g2.render(filename='img/g'+ etiqueta)
 
 def manejoOperaciones(token,arbol):
+    dicbinarias = {'|':op_or,'fin':0}
+    dicUnarias = {'*':op_estrellaKleen,'+':op_superMas}
     global pareja
     pareja = 0
-    if len(pilaOperaciones) <= 0:
+    if token in dicbinarias:
+        if len(pilaOperaciones) <= 0:
+            pilaOperaciones.append(token)
+            pilaNodos.append(numNodo)
+            return
+        else:
+            operacion = dicOperaciones[pilaOperaciones.pop()]
+            operacion(arbol)
+            pilaOperaciones.append(token)
+            pilaNodos.append(numNodo)
+    else:
         pilaOperaciones.append(token)
         pilaNodos.append(numNodo)
-        return
-    else:
         operacion = dicOperaciones[pilaOperaciones.pop()]
         operacion(arbol)
-        pilaOperaciones.append(token)
-        pilaNodos.append(numNodo)
+
 def op_or(arbol):
     global numNodo
     nodo1 = numNodo
@@ -51,19 +60,15 @@ def op_or(arbol):
     make_link(arbol, numNodo, '|'+str(numNodo))
     print ("operacion or")
 def op_estrellaKleen(arbol):
-    global numNodo
-    nodo2 = numNodo
+    global pareja
     nodo1 = pilaNodos.pop()
     if len(arbol[nodo1]) > 1:
         make_link(arbol, nodo1 - 1, '*'+str(nodo1-1))
     else:
         make_link(arbol, nodo1, '*'+str(nodo1))
-    numNodo += 1
-    make_link(arbol, numNodo, nodo1)
-    make_link(arbol, numNodo, nodo2)
-    
+    pareja += 1    
     print ("operacion estrella de kleen")
-def op_superMas():
+def op_superMas(arbol):
     print ("operacion super mas")
 def parentesisA():    
     print ("parentesis que abre")
