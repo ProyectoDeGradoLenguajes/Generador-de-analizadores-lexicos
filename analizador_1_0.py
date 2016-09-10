@@ -1,6 +1,12 @@
 import sys
 import graphviz as graph
 
+dicOperaciones = {}
+pilaNodos = []
+pilaOperaciones = []
+numNodo = 0
+pareja = 0
+
 """
  Crea conexiones para grafos unidireccionales
 """
@@ -23,7 +29,17 @@ def dibujarArbol(G,etiqueta):
             g2.edge(str(node1),str(node2))
     filename = g2.render(filename='img/g'+ etiqueta)
 
-#def operaciones(op):
+def manejoOperaciones(token):
+    global pareja
+    pareja = 0
+    if len(pilaOperaciones) <= 0:
+        pilaOperaciones.append(token)
+        pilaNodos.append(numNodo)
+        return
+    else:
+        operacion = dicOperaciones[pilaOperaciones.pop()]
+        operacion()
+
 def op_or():
     print ("operacion or")
 def op_estrellaKleen():
@@ -34,6 +50,7 @@ def parentesisA():
     print ("parentesis que abre")
 def parentesisB():
     print ("parentesis que cierra")
+       
 
 """
 Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
@@ -41,17 +58,17 @@ Retorna el arbol de significado
 
 """
 def hacerArbol(automata):
+    global numNodo
+    global pareja
+    global dicOperaciones
+    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB}
     arbol = {}
-    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parenteisA,')':parenteisB}
-    numNodo = 0
-    pareja = 0
     i = 0
     while i < len(automata):
         token = automata[i]
         #busqueda en el diccionario de la funcion que desarrolla la funcion
         if token in dicOperaciones:
-            operacion = dicOperaciones[token]
-            operacion()
+            manejoOperaciones(token)
         else:
             #generacion de la relacion simple nodo - token
             numNodo += 1
@@ -63,9 +80,9 @@ def hacerArbol(automata):
             numNodo += 1
             make_link(arbol, numNodo, numNodo-1)
             make_link(arbol, numNodo, numNodo-2)
-            pareja -= 1         
-            
-
+            pareja -= 1  
+        if i+1 == len(automata):
+            manejoOperaciones(token)      
     return arbol
     
 """
