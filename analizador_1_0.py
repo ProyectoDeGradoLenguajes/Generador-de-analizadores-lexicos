@@ -29,7 +29,7 @@ def dibujarArbol(G,etiqueta):
             g2.edge(str(node1),str(node2))
     filename = g2.render(filename='img/g'+ etiqueta)
 
-def manejoOperaciones(token):
+def manejoOperaciones(token,arbol):
     global pareja
     pareja = 0
     if len(pilaOperaciones) <= 0:
@@ -38,9 +38,16 @@ def manejoOperaciones(token):
         return
     else:
         operacion = dicOperaciones[pilaOperaciones.pop()]
-        operacion()
+        operacion(arbol)
 
-def op_or():
+def op_or(arbol):
+    global numNodo
+    nodo1 = numNodo
+    numNodo += 1
+    nodo2 = pilaNodos.pop()
+    make_link(arbol, numNodo, nodo1)
+    make_link(arbol, numNodo, nodo2)
+    make_link(arbol, numNodo, '|'+str(numNodo))
     print ("operacion or")
 def op_estrellaKleen():
     print ("operacion estrella de kleen")
@@ -67,7 +74,7 @@ def hacerArbol(automata):
         token = automata[i]
         #busqueda en el diccionario de la funcion que desarrolla la funcion
         if token in dicOperaciones:
-            manejoOperaciones(token)
+            manejoOperaciones(token,arbol)
         else:
             #generacion de la relacion simple nodo - token
             numNodo += 1
@@ -80,7 +87,7 @@ def hacerArbol(automata):
             make_link(arbol, numNodo, numNodo-1)
             make_link(arbol, numNodo, numNodo-2)
             pareja -= 1  
-    manejoOperaciones('fin')   
+    manejoOperaciones('fin',arbol)   
     return arbol
     
 """
