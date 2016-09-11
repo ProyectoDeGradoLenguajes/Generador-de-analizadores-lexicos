@@ -59,7 +59,7 @@ def op_or(arbol):
     make_link(arbol, numNodo, nodo1)
     make_link(arbol, numNodo, nodo2)
     make_link(arbol, numNodo, '|'+str(numNodo))
-    print ("operacion or")
+    #print ("operacion or")
 
 def op_estrellaKleen(arbol):
     global pareja
@@ -69,7 +69,8 @@ def op_estrellaKleen(arbol):
     else:
         make_link(arbol, nodo1, '*'+str(nodo1))
     pareja += 1    
-    print ("operacion estrella de kleen")
+    #print ("operacion estrella de kleen")
+
 def op_superMas(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
@@ -78,20 +79,22 @@ def op_superMas(arbol):
     else:
         make_link(arbol, nodo1, '+'+str(nodo1))
     pareja += 1    
-    print ("operacion super mas")
+    #print ("operacion super mas")
+
 def parentesisA(arbol):
     pilaParentesis.append(pilaNodos.pop())
-    print ("parentesis que abre")
+    #print ("parentesis que abre")
+
 def parentesisB(arbol):
     pilaNodos.pop()
     """
     verifica que no existan operaciones pendientes dentro 
     de los parentesis para realizarlas antes de cerrar los parentesis
     """
-    while len(pilaOperaciones) > 0:
-        operacion = dicOperaciones[pilaOperaciones.pop()]
-        operacion(arbol)
-    
+    if len(pilaParentesis) <= 1:#identifica perentesis anidados
+        while len(pilaOperaciones) > 0:
+            operacion = dicOperaciones[pilaOperaciones.pop()]
+            operacion(arbol)
     global numNodo
     global pareja
     """
@@ -107,9 +110,10 @@ def parentesisB(arbol):
     numNodo += 1
     nodo2 = pilaParentesis.pop()
     make_link(arbol, numNodo, nodo1+1)
-    make_link(arbol, numNodo, nodo2)
+    if len(pilaParentesis) == 0: #identifica perentesis anidados
+        make_link(arbol, numNodo, nodo2)
     pareja += 1
-    print ("parentesis que cierra")
+    #print ("parentesis que cierra")
        
 
 """
@@ -139,8 +143,14 @@ def hacerArbol(automata):
             numNodo += 1
             make_link(arbol, numNodo, numNodo-1)
             make_link(arbol, numNodo, numNodo-2)
-            pareja -= 1  
-    print ()
+            pareja -= 1
+        """
+        se excluye el unico operador que no altera el arbol para 
+        dibujar solamente los cambios del arbol
+        """
+        if token != '(':
+            dibujarArbol(arbol,str(i))  
+        
     manejoOperaciones('fin',arbol)   
     return arbol
     
@@ -153,12 +163,12 @@ Lee el archivo de entrada y delega el procesamiento por fases.
 def programa():
     numAutomatas = int(sys.stdin.readline().strip())
     for i in range(numAutomatas):
-        ##print "caso --->", i + 1
+        ###print "caso --->", i + 1
         automata = sys.stdin.readline().strip()
         automata = list(map(str, automata))
         # automata almacenara una lista con el orden en que deben ser operados los parentesis
         arbolFinal = hacerArbol(automata)
-        print (arbolFinal)
+        #print (arbolFinal)
         dibujarArbol(arbolFinal, "finals")
 
 programa()
