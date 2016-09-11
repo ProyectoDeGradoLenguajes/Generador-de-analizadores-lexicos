@@ -4,6 +4,7 @@ import graphviz as graph
 dicOperaciones = {}
 pilaNodos = []
 pilaOperaciones = []
+pilaParentesis = []
 numNodo = 0
 pareja = 0
 
@@ -78,9 +79,36 @@ def op_superMas(arbol):
         make_link(arbol, nodo1, '+'+str(nodo1))
     pareja += 1    
     print ("operacion super mas")
-def parentesisA():    
+def parentesisA(arbol):
+    pilaParentesis.append(pilaNodos.pop())
     print ("parentesis que abre")
-def parentesisB():
+def parentesisB(arbol):
+    pilaNodos.pop()
+    """
+    verifica que no existan operaciones pendientes dentro 
+    de los parentesis para realizarlas antes de cerrar los parentesis
+    """
+    while len(pilaOperaciones) > 0:
+        operacion = dicOperaciones[pilaOperaciones.pop()]
+        operacion(arbol)
+    
+    global numNodo
+    global pareja
+    """
+    Incluye un nuevo nodo con los parentesis para hacer refencia 
+    a la expresion regular que esta denrto de los parentesis
+    """"
+    nodo1 = numNodo
+    numNodo += 1
+    make_link(arbol, numNodo, '('+str(numNodo))
+    make_link(arbol, numNodo, ')'+str(numNodo))
+    make_link(arbol, numNodo, numNodo - 1)
+    #Une la expresion regular del parentesis con el resto del arbol
+    numNodo += 1
+    nodo2 = pilaParentesis.pop()
+    make_link(arbol, numNodo, nodo1+1)
+    make_link(arbol, numNodo, nodo2)
+    pareja += 1
     print ("parentesis que cierra")
        
 
@@ -126,7 +154,6 @@ def programa():
     numAutomatas = int(sys.stdin.readline().strip())
     for i in range(numAutomatas):
         ##print "caso --->", i + 1
-        #Encierra todo el automata en un parentesis para garantizar que sea operado
         automata = sys.stdin.readline().strip()
         automata = list(map(str, automata))
         # automata almacenara una lista con el orden en que deben ser operados los parentesis
