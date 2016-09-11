@@ -97,7 +97,7 @@ def parentesisB(arbol):
     """
     Incluye un nuevo nodo con los parentesis para hacer refencia 
     a la expresion regular que esta denrto de los parentesis
-    """"
+    """
     nodo1 = numNodo
     numNodo += 1
     make_link(arbol, numNodo, '('+str(numNodo))
