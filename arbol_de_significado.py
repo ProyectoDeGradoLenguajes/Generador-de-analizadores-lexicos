@@ -31,8 +31,7 @@ def dibujarArbol(G,etiqueta):
     filename = g2.render(filename='img/g'+ etiqueta)
 
 def manejoOperaciones(token,arbol):
-    dicbinarias = {'|':op_or,'fin':0}
-    dicUnarias = {'*':op_estrellaKleen,'+':op_superMas}
+    dicbinarias = {'|':op_or,'fin':0}    
     global pareja
     pareja = 0
     if token in dicbinarias:
@@ -48,7 +47,7 @@ def manejoOperaciones(token,arbol):
     else:
         pilaOperaciones.append(token)
         pilaNodos.append(numNodo)
-        operacion = dicOperaciones[pilaOperaciones.pop()]
+        operacion = dicOperaciones[token]
         operacion(arbol)
 
 def op_or(arbol):
@@ -61,31 +60,26 @@ def op_or(arbol):
     make_link(arbol, numNodo, '|'+str(numNodo))
     #print ("operacion or")
 
-def op_estrellaKleen(arbol):
+def op_unaria(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
-    if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '*'+str(nodo1-1))
+    op = pilaOperaciones.pop()
+    t = len(arbol[nodo1])
+    if t == 2:
+        make_link(arbol, nodo1 - 1, op+str(nodo1-1))
     else:
-        make_link(arbol, nodo1, '*'+str(nodo1))
-    pareja += 1    
-    #print ("operacion estrella de kleen")
-
-def op_superMas(arbol):
-    global pareja
-    nodo1 = pilaNodos.pop()
-    if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '+'+str(nodo1-1))
-    else:
-        make_link(arbol, nodo1, '+'+str(nodo1))
+        make_link(arbol, nodo1, op+str(nodo1))
     pareja += 1    
     #print ("operacion super mas")
 
 def parentesisA(arbol):
-    pilaParentesis.append(pilaNodos.pop())
+    pilaOperaciones.pop()
+    nodo = pilaNodos.pop()
+    pilaParentesis.append(nodo)
     #print ("parentesis que abre")
 
 def parentesisB(arbol):
+    op = pilaOperaciones.pop()
     pilaNodos.pop()
     """
     verifica que no existan operaciones pendientes dentro 
@@ -104,17 +98,18 @@ def parentesisB(arbol):
     nodo1 = numNodo
     numNodo += 1
     make_link(arbol, numNodo, '('+str(numNodo))
-    make_link(arbol, numNodo, ')'+str(numNodo))
+    make_link(arbol, numNodo, op+str(numNodo))
     make_link(arbol, numNodo, numNodo - 1)
     #Une la expresion regular del parentesis con el resto del arbol
-    numNodo += 1
+    
     nodo2 = pilaParentesis.pop()
-    make_link(arbol, numNodo, nodo1+1)
-    if len(pilaParentesis) == 0: #identifica perentesis anidados
-        make_link(arbol, numNodo, nodo2)
-    pareja += 1
-    #print ("parentesis que cierra")
-       
+    if nodo2 != 0:
+        numNodo += 1
+        make_link(arbol, numNodo, nodo1+1)
+        if len(pilaParentesis) == 0: #identifica perentesis anidados
+            make_link(arbol, numNodo, nodo2)
+        pareja += 1
+
 
 """
 Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
@@ -124,7 +119,7 @@ def hacerArbol(automata):
     global numNodo
     global pareja
     global dicOperaciones
-    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB,'fin':0}
+    dicOperaciones = {'*':op_unaria,'+':op_unaria,'|':op_or,'(':parentesisA,')':parentesisB,'fin':0}
     arbol = {}
     i = 0
     while i < len(automata):
