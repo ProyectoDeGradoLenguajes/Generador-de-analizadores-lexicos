@@ -66,9 +66,9 @@ def op_unaria(arbol):
     op = pilaOperaciones.pop()
     t = len(arbol[nodo1])
     if t == 2:
-        make_link(arbol, nodo1 - 1, op+str(nodo1-1))
+        make_link(arbol, nodo1 - 1, op)
     else:
-        make_link(arbol, nodo1, op+str(nodo1))
+        make_link(arbol, nodo1, op)
     pareja += 1    
     #print ("operacion super mas")
 
