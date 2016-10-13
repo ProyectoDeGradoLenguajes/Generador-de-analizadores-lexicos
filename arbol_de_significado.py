@@ -117,18 +117,18 @@ def parentesisB(arbol):
        
 
 """
-Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
+Recibe una cadena que contiene la definicion del ER y una lista con la posicion de los parentesis
 Retorna el arbol de significado
 """
-def hacerArbol(automata):
+def hacerArbol(ER):
     global numNodo
     global pareja
     global dicOperaciones
     dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB,'fin':0}
     arbol = {}
     i = 0
-    while i < len(automata):
-        token = automata[i]
+    while i < len(ER):
+        token = ER[i]
         #busqueda en el diccionario de la funcion que desarrolla la funcion
         if token in dicOperaciones:
             manejoOperaciones(token,arbol)
@@ -160,15 +160,16 @@ Lee el archivo de entrada y delega el procesamiento por fases.
     2) Dibuja el arbol de significado
     4) Recorre el arbol de significado
 """
-def programa():
-    numAutomatas = int(sys.stdin.readline().strip())
-    for i in range(numAutomatas):
+def arbolSignificado():
+    numER = int(sys.stdin.readline())
+    for i in range(numER):
         ###print "caso --->", i + 1
-        automata = sys.stdin.readline().strip()
-        automata = list(map(str, automata))
-        # automata almacenara una lista con el orden en que deben ser operados los parentesis
-        arbolFinal = hacerArbol(automata)
-        #print (arbolFinal)
+        ER = sys.stdin.readline().strip()
+        ER = list(map(str, ER))
+        # ER almacenara una lista con el orden en que deben ser operados los parentesis
+        arbolFinal = hacerArbol(ER)
+        print (arbolFinal)
         dibujarArbol(arbolFinal, "finals")
+        return arbolFinal
 
-programa()
+arbolSignificado()
