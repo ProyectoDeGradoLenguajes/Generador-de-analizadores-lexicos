@@ -11,7 +11,7 @@ pareja = 0
 """
  Crea conexiones para grafos unidireccionales
 """
-def make_link(G, node1, node2):
+def make_link (G, node1, node2):
     if node1 not in G:
         G[node1] = {}
     (G[node1])[node2] = 1
@@ -58,16 +58,16 @@ def op_or(arbol):
     nodo2 = pilaNodos.pop()
     make_link(arbol, numNodo, nodo1)
     make_link(arbol, numNodo, nodo2)
-    make_link(arbol, numNodo, '|'+str(numNodo))
+    make_link(arbol, numNodo, '|')
     #print ("operacion or")
 
 def op_estrellaKleen(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
     if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '*'+str(nodo1-1))
+        make_link(arbol, nodo1 - 1, '*')
     else:
-        make_link(arbol, nodo1, '*'+str(nodo1))
+        make_link(arbol, nodo1, '*')
     pareja += 1    
     #print ("operacion estrella de kleen")
 
@@ -75,9 +75,9 @@ def op_superMas(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
     if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '+'+str(nodo1-1))
+        make_link(arbol, nodo1 - 1, '+')
     else:
-        make_link(arbol, nodo1, '+'+str(nodo1))
+        make_link(arbol, nodo1, '+')
     pareja += 1    
     #print ("operacion super mas")
 
@@ -103,8 +103,8 @@ def parentesisB(arbol):
     """
     nodo1 = numNodo
     numNodo += 1
-    make_link(arbol, numNodo, '('+str(numNodo))
-    make_link(arbol, numNodo, ')'+str(numNodo))
+    make_link(arbol, numNodo, '(')
+    make_link(arbol, numNodo, ')')
     make_link(arbol, numNodo, numNodo - 1)
     #Une la expresion regular del parentesis con el resto del arbol
     numNodo += 1
