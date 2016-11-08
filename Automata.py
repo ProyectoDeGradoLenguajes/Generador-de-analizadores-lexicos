@@ -1,4 +1,4 @@
-class Node(object):
+class node(object):
     def __init__(self, estado, nombre):
         self.estado = estado
         self.nombre = nombre    
@@ -19,15 +19,38 @@ def make_link (G, node1, node2):
     return G
 
 def make_node_arbol(nodesAutomata, estado, nombre):
-    n = Node(estado, nombre)
+    n = node(estado, nombre)
     nodesAutomata[nombre] = n
     return nombre
 
 def make_node_automata(nodesArbol, aceptacion, nombre):
-    n = Node(aceptacion, nombre)
+    n = node(aceptacion, nombre)
     nodesArbol[nombre] = n
     return nombre  
+######################################################################################################
+def dibujarAutomata(G ,nodesAutomata ,nombre_archivo):
+    g2 = graph.Digraph(format='png')
+    g2.attr("graph", _attributes={"rankdir": "LR"})
 
+    g2.node("start",_attributes={"shape":"point", "color":"white", "fontcolor":"white"})
+    g2.edge("start", "q0")
+
+    for node1 in G:
+        nameNode = nodesAutomata[node1].nombre
+        aceptacionNode = nodesAutomata[node1].estado
+    
+        if aceptacionNode:
+            g2.node(nameNode, _attributes={"shape": "doublecircle", "color":"black", "fontcolor":"black"})
+        else:
+            g2.node(nameNode, _attributes={"shape":"circle"})
+
+        for node2 in G[node1]:
+            etiqueta = G[node1][node2]
+            g2.edge(node1, node2, label=etiqueta)
+    
+    filename = g2.render(filename='imgAutomatas/g'+ nombre_archivo)
+    
+#####################################################################################################33333333
 def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     automata, estado = transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
     nombre = "q" + str(estado - 2)
@@ -110,6 +133,7 @@ def crearAutomata(arbol, operaciones):
             automata, count = transicion(i, subArbol, automata, count, nodesAutomata, nodesArbol)
             
         i += 1   
+    dibujarAutomata(automata,nodesAutomata,"prueba")
     return automata, arbol
 
 #prueba por funciones
@@ -121,7 +145,9 @@ arbol = {1: {'a': 1, '+': 1}}
 #arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
 
 dicOperaciones = {'*':1,'+':1}
+
 automata, arbol = crearAutomata(arbol, dicOperaciones)
+print (automata)
 
 
 
