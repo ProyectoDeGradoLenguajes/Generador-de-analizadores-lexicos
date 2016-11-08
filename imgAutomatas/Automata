@@ -1,0 +1,19 @@
+digraph {
+	graph [rankdir=LR]
+	start [color=white fontcolor=white shape=point]
+		start -> q5
+	q6 [color=black fontcolor=black shape=doublecircle]
+	q2 [shape=circle]
+		q2 -> q3 [label=b]
+	q3 [color=black fontcolor=black shape=doublecircle]
+		q3 -> q2 [label=lambda]
+		q3 -> q6 [label=lambda]
+	q5 [shape=circle]
+		q5 -> q2 [label=lambda]
+		q5 -> q0 [label=lambda]
+	q0 [color=black fontcolor=black shape=doublecircle]
+		q0 -> q1 [label=a]
+	q1 [shape=circle]
+		q1 -> q6 [label=lambda]
+		q1 -> q0 [label=lambda]
+}

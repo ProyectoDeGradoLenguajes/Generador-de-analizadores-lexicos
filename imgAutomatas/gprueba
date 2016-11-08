@@ -1,9 +1,0 @@
-digraph {
-	graph [rankdir=LR]
-	start [color=white fontcolor=white shape=point]
-		start -> q0
-	q1 [color=black fontcolor=black shape=doublecircle]
-		q1 -> q0 [label=lambda]
-	q0 [shape=circle]
-		q0 -> q1 [label=a]
-}
