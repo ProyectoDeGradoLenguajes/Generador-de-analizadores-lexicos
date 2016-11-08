@@ -28,6 +28,15 @@ def make_node_automata(nodesArbol, aceptacion, nombre):
     nodesArbol[nombre] = n
     return nombre  
 ######################################################################################################
+def dibujarArbol(G,nombre_archivo):
+    g2 = graph.Digraph(format='png')
+    for node1 in G:
+        for node2 in G[node1]:
+            g2.node(str(node1))
+            g2.node(str(node2))
+            g2.edge(str(node1),str(node2))
+    filename = g2.render(filename='imgAutomatas/g'+ nombre_archivo)
+
 def dibujarAutomata(G ,nodesAutomata ,nombre_archivo):
     g2 = graph.Digraph(format='png')
     g2.attr("graph", _attributes={"rankdir": "LR"})
@@ -73,28 +82,27 @@ def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
 
 def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     dicOperaciones = {'*':estrella_kleen,'+':super_mas}
-    nInicialAutomata = "" 
-    nFinalAutomata = ""
+    
+    operador = ""
+    token = ""
+    for i in subArbol:
+        if i in dicOperaciones:
+            operador = i
+        elif i.find("q") >= 0:
+            print("hola mundo")
+        else:
+            token = i
 
-    i = 0
-    while i < len(list(subArbol.keys())):
-        k = list(subArbol.keys())[i]
-        print (k)
-        i += 1
-        if k in dicOperaciones:
-            operacion = dicOperaciones[k] 
-            del subArbol[k]
-            nInicialAutomata, nFinalAutomata = operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)   
-            break
-    
-    nInicialArbol = make_node_arbol(nodesArbol, True, nInicialAutomata)
-    nFinalArbol = make_node_arbol(nodesArbol, False, nFinalAutomata)
-    
-    make_link(arbol, nodoPadre, nInicialArbol)
-    make_link(arbol, nodoPadre, nFinalArbol)   
-    
-    estado += 2
-    print ("operacion()")
+    operacion = dicOperaciones[operador]
+    nInicialAutomata ,nFinalAutomata = operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
+
+    del subArbol[str(operador)]
+
+    nIncialArbol = make_node_arbol(nodesArbol,True,nInicialAutomata)
+    nFinallArbol = make_node_arbol(nodesArbol,False,nFinalAutomata)
+    make_link(arbol,nodoPadre,nIncialArbol)
+    make_link(arbol,nodoPadre,nIncialArbol)
+
     return automata, estado
     
 def transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
@@ -146,7 +154,9 @@ arbol = {1: {'a': 1, '+': 1}}
 
 dicOperaciones = {'*':1,'+':1}
 
+dibujarArbol(arbol,"arbolInicial")
 automata, arbol = crearAutomata(arbol, dicOperaciones)
+dibujarArbol(arbol,"arbolFinal")
 print (automata)
 
 
