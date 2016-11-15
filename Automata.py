@@ -39,8 +39,6 @@ def dibujarArbol(G,nombre_archivo):
     filename = g2.render(filename='imgAutomatas/'+ nombre_archivo)
 
 def dibujarAutomata(G ,nodesAutomata ,nombre_archivo):
-    print(G.keys())
-    print(nodesAutomata.keys())
     global estadoInicial
     g2 = graph.Digraph(format='png')
     g2.attr("graph", _attributes={"rankdir": "LR"})
@@ -71,13 +69,18 @@ def dibujarAutomata(G ,nodesAutomata ,nombre_archivo):
     
 #####################################################################################################33333333
 def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
+    global estadoInicial
     automata, estado = transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
-    nombre = "q" + str(estado - 2)
-    nInicial = make_node_automata(nodesAutomata, True, nombre)
-    nombre = "q" + str(estado - 1)
-    nFinal = make_node_automata(nodesAutomata, False, nombre)
     
-    make_link_automata(automata, nFinal, nInicial, "lambda")
+    nombre = "q" + str(estado - 2)
+    nFinal = make_node_automata(nodesAutomata, True, nombre)
+
+    nombre = "q" + str(estado - 1)
+    nInicial = make_node_automata(nodesAutomata, False, nombre)
+
+    estadoInicial = nombre
+
+    make_link_automata(automata, nInicial, nFinal, "lambda")
     return nInicial, nFinal
 
 def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
@@ -106,30 +109,32 @@ def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     nFinal = make_node_automata(nodesAutomata, True, nombre)
 
     for node1 in subArbol:
+        print(node1)
         for node2 in arbol[node1]:
             if nodesArbol[node2].estado:
                 nodosIniciales.append(node2)
             else:
                 nodosFinales.append(node2)           
         del arbol[node1]
-
     make_link_automata(automata, nInicial, nodosIniciales.pop(0), "lambda")
     make_link_automata(automata, nInicial, nodosIniciales.pop(0), "lambda")
 
     make_link_automata(automata, nodosFinales.pop(0), nFinal, "lambda")
     make_link_automata(automata, nodosFinales.pop(0), nFinal, "lambda")
     
+    del arbol[nodoPadre]
     return nInicial, nFinal
 
 def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     key1 = 0
     key2 = 0
-    for key in subArbol:
-        if key > key2:
-            key1 = key2
-            key2 = key
-        else:
-            key1 = key
+    keys = list(subArbol.keys())
+    if keys[0]<keys[1]:
+        key1 = keys[0]
+        key2 = keys[1]
+    else:
+        key1 = keys[1]
+        key2 = keys[0]
     
     nodo1 = ""
     nodoInicial = ""
@@ -166,8 +171,6 @@ def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesAr
     operador = ""
     token = ""
     tamaño = len(subArbol)
-    print (subArbol)
-    print (len(subArbol))
     for i in subArbol:
         tamaño -= 1
         if i in dicOperaciones:
@@ -186,9 +189,9 @@ def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesAr
     nInicialAutomata ,nFinalAutomata = operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
 
     nIncialArbol = make_node_arbol(nodesArbol,True,nInicialAutomata)
-    nFinallArbol = make_node_arbol(nodesArbol,False,nFinalAutomata)
+    nFinalArbol = make_node_arbol(nodesArbol,False,nFinalAutomata)
     make_link(arbol,nodoPadre,nIncialArbol)
-    make_link(arbol,nodoPadre,nIncialArbol)
+    make_link(arbol,nodoPadre,nFinalArbol)
 
     estado += 2
 
@@ -224,13 +227,11 @@ def crearAutomata(arbol, operaciones):
     i = 1
     nodos = len(arbol)
     while i <= nodos:
-        print(i)
         subArbol = arbol[i]
         if len(subArbol) > 1:
             automata, count = sel_operacion(i, subArbol, automata, count, nodesAutomata, nodesArbol)
         else:
             automata, count = transicion(i, subArbol, automata, count, nodesAutomata, nodesArbol)
-        dibujarArbol(arbol,"arbolFinal"+str(i))
         i += 1
     print (automata)
     dibujarAutomata(automata,nodesAutomata,"Automata")
