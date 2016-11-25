@@ -98,12 +98,9 @@ def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesAr
     return nInicial, nFinal
 
 def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
-    automata, estado = transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
-    nombre = "q" + str(estado - 2)
-    nInicial = make_node_automata(nodesAutomata, False, nombre)
-    nombre = "q" + str(estado - 1)
-    nFinal = make_node_automata(nodesAutomata, True, nombre)
-    
+     
+    nInicial , nFinal = estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
+    nodesAutomata[nInicial].estado = False
     make_link_automata(automata, nFinal, nInicial, "lambda")
     return nInicial, nFinal
 
@@ -209,7 +206,6 @@ def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesAr
     
     if '(' in subArbol:
         subArbol = parentesis(nodoPadre, subArbol)
-        print("--------------------",subArbol)
     dicOperaciones = {'*':estrella_kleen,'+':super_mas,'|':op_or}
     operador = ""
     token = ""
@@ -289,7 +285,8 @@ def crearAutomata(arbol, operaciones):
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'+': 1, 'c': 1}, 5: {'d': 1}, 6: {4: 1, 5: 1}, 7: {'|': 1, 3: 1, 6: 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
-arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '*': 1, '(': 1}}
+#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '*': 1, '(': 1}}
+arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '+': 1, '(': 1}}
 
 #prueba arbol completo
 #arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
