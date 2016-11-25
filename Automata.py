@@ -70,17 +70,31 @@ def dibujarAutomata(G ,nodesAutomata ,nombre_archivo):
 #####################################################################################################33333333
 def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     global estadoInicial
-    automata, estado = transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
+    nInicial = ""
+    nFinal = ""
     
-    nombre = "q" + str(estado - 2)
-    nFinal = make_node_automata(nodesAutomata, True, nombre)
+    if len(subArbol) > 1:
+        nodo1 = list(subArbol.keys())[0]
+        nodesAutomata[nodo1].estado = True
+        nodo2 = list(subArbol.keys())[1]
+        nodesAutomata[nodo2]. estado = True
 
-    nombre = "q" + str(estado - 1)
-    nInicial = make_node_automata(nodesAutomata, False, nombre)
+        if nodesArbol[nodo1].estado == True:
+            nInicial = nodo1
+            nFinal = nodo2
+        else:
+            nInicial = nodo2
+            nFinal = nodo1
+    else:
+        automata, estado = transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
+        
+        nombre = "q" + str(estado - 2)
+        nInicial = make_node_automata(nodesAutomata, True, nombre)
 
-    estadoInicial = nombre
+        nombre = "q" + str(estado - 1)
+        nFinal = make_node_automata(nodesAutomata, True, nombre)
 
-    make_link_automata(automata, nInicial, nFinal, "lambda")
+    make_link_automata(automata, nFinal, nInicial, "lambda")
     return nInicial, nFinal
 
 def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
@@ -109,7 +123,6 @@ def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     nFinal = make_node_automata(nodesAutomata, True, nombre)
 
     for node1 in subArbol:
-        print(node1)
         for node2 in arbol[node1]:
             if nodesArbol[node2].estado:
                 nodosIniciales.append(node2)
@@ -165,8 +178,38 @@ def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
   
     return automata, estado
 
-def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
+def parentesis(nodoPadre,subArbol):
+    del subArbol['(']
+    del subArbol[')']
+    node1 = list(subArbol.keys())[0]
+    node2 = list(subArbol.keys())[1]
+    token = "" 
+
+    if type(node1) == int:
+        for i in arbol[node1].keys():
+            make_link(arbol, nodoPadre, i)
+        del arbol[node1]
+        del arbol[nodoPadre][node1]
+    else:
+        token = node1
+
+    if type(node2) == int:
+        for i in arbol[node2].keys():
+            make_link(arbol, nodoPadre, i)
+        del arbol[node2]
+        del arbol[nodoPadre][node2]
+    else:
+        token = node1
+
+    make_link(arbol,nodoPadre,token)
+    return arbol[nodoPadre]
         
+
+def sel_operacion (nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
+    
+    if '(' in subArbol:
+        subArbol = parentesis(nodoPadre, subArbol)
+        print("--------------------",subArbol)
     dicOperaciones = {'*':estrella_kleen,'+':super_mas,'|':op_or}
     operador = ""
     token = ""
@@ -233,6 +276,8 @@ def crearAutomata(arbol, operaciones):
         else:
             automata, count = transicion(i, subArbol, automata, count, nodesAutomata, nodesArbol)
         i += 1
+        dibujarAutomata(automata,nodesAutomata,"Automata")
+    
     print (automata)
     dibujarAutomata(automata,nodesAutomata,"Automata")
     return automata, arbol
@@ -243,7 +288,9 @@ def crearAutomata(arbol, operaciones):
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'c': 1}, 5: {3: 1, 4: 1}, 6: {'d': 1}, 7: {5: 1, 6: 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'+': 1, 'c': 1}, 5: {'d': 1}, 6: {4: 1, 5: 1}, 7: {'|': 1, 3: 1, 6: 1}}
-arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
+#arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
+arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '*': 1, '(': 1}}
+
 #prueba arbol completo
 #arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
 
