@@ -145,7 +145,9 @@ def hacerArbol(ER):
         """
         if token != '(':
             dibujarArbol(arbol,str(i))  
-        
+    
+    if 0 in arbol[numNodo]:
+        del arbol[numNodo]
     manejoOperaciones('fin',arbol)   
     return arbol
     
