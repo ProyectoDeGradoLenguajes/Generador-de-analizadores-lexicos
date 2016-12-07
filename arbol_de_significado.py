@@ -11,7 +11,7 @@ pareja = 0
 """
  Crea conexiones para grafos unidireccionales
 """
-def make_link(G, node1, node2):
+def make_link (G, node1, node2):
     if node1 not in G:
         G[node1] = {}
     (G[node1])[node2] = 1
@@ -31,8 +31,7 @@ def dibujarArbol(G,etiqueta):
     filename = g2.render(filename='img/g'+ etiqueta)
 
 def manejoOperaciones(token,arbol):
-    dicbinarias = {'|':op_or,'fin':0}
-    dicUnarias = {'*':op_estrellaKleen,'+':op_superMas}
+    dicbinarias = {'|':op_or,'fin':0}    
     global pareja
     pareja = 0
     if token in dicbinarias:
@@ -48,7 +47,7 @@ def manejoOperaciones(token,arbol):
     else:
         pilaOperaciones.append(token)
         pilaNodos.append(numNodo)
-        operacion = dicOperaciones[pilaOperaciones.pop()]
+        operacion = dicOperaciones[token]
         operacion(arbol)
 
 def op_or(arbol):
@@ -58,34 +57,29 @@ def op_or(arbol):
     nodo2 = pilaNodos.pop()
     make_link(arbol, numNodo, nodo1)
     make_link(arbol, numNodo, nodo2)
-    make_link(arbol, numNodo, '|'+str(numNodo))
+    make_link(arbol, numNodo, '|')
     #print ("operacion or")
 
-def op_estrellaKleen(arbol):
+def op_unaria(arbol):
     global pareja
     nodo1 = pilaNodos.pop()
-    if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '*'+str(nodo1-1))
+    op = pilaOperaciones.pop()
+    t = len(arbol[nodo1])
+    if t == 2:
+        make_link(arbol, nodo1 - 1, op)
     else:
-        make_link(arbol, nodo1, '*'+str(nodo1))
-    pareja += 1    
-    #print ("operacion estrella de kleen")
-
-def op_superMas(arbol):
-    global pareja
-    nodo1 = pilaNodos.pop()
-    if len(arbol[nodo1]) > 1:
-        make_link(arbol, nodo1 - 1, '+'+str(nodo1-1))
-    else:
-        make_link(arbol, nodo1, '+'+str(nodo1))
+        make_link(arbol, nodo1, op)
     pareja += 1    
     #print ("operacion super mas")
 
 def parentesisA(arbol):
-    pilaParentesis.append(pilaNodos.pop())
+    pilaOperaciones.pop()
+    nodo = pilaNodos.pop()
+    pilaParentesis.append(nodo)
     #print ("parentesis que abre")
 
 def parentesisB(arbol):
+    op = pilaOperaciones.pop()
     pilaNodos.pop()
     """
     verifica que no existan operaciones pendientes dentro 
@@ -103,32 +97,33 @@ def parentesisB(arbol):
     """
     nodo1 = numNodo
     numNodo += 1
-    make_link(arbol, numNodo, '('+str(numNodo))
-    make_link(arbol, numNodo, ')'+str(numNodo))
+    make_link(arbol, numNodo, '(')
+    make_link(arbol, numNodo, op)
     make_link(arbol, numNodo, numNodo - 1)
     #Une la expresion regular del parentesis con el resto del arbol
-    numNodo += 1
+    
     nodo2 = pilaParentesis.pop()
-    make_link(arbol, numNodo, nodo1+1)
-    if len(pilaParentesis) == 0: #identifica perentesis anidados
-        make_link(arbol, numNodo, nodo2)
-    pareja += 1
-    #print ("parentesis que cierra")
-       
+    if nodo2 != 0:
+        numNodo += 1
+        make_link(arbol, numNodo, nodo1+1)
+        if len(pilaParentesis) == 0: #identifica perentesis anidados
+            make_link(arbol, numNodo, nodo2)
+        pareja += 1
+
 
 """
-Recibe una cadena que contiene la definicion del automata y una lista con la posicion de los parentesis
+Recibe una cadena que contiene la definicion del ER y una lista con la posicion de los parentesis
 Retorna el arbol de significado
 """
-def hacerArbol(automata):
+def hacerArbol(ER):
     global numNodo
     global pareja
     global dicOperaciones
-    dicOperaciones = {'*':op_estrellaKleen,'|':op_or,'+':op_superMas,'(':parentesisA,')':parentesisB,'fin':0}
+    dicOperaciones = {'*':op_unaria,'+':op_unaria,'|':op_or,'(':parentesisA,')':parentesisB,'fin':0}
     arbol = {}
     i = 0
-    while i < len(automata):
-        token = automata[i]
+    while i < len(ER):
+        token = ER[i]
         #busqueda en el diccionario de la funcion que desarrolla la funcion
         if token in dicOperaciones:
             manejoOperaciones(token,arbol)
@@ -150,7 +145,9 @@ def hacerArbol(automata):
         """
         if token != '(':
             dibujarArbol(arbol,str(i))  
-        
+    
+    if 0 in arbol[numNodo]:
+        del arbol[numNodo]
     manejoOperaciones('fin',arbol)   
     return arbol
     
@@ -160,15 +157,16 @@ Lee el archivo de entrada y delega el procesamiento por fases.
     2) Dibuja el arbol de significado
     4) Recorre el arbol de significado
 """
-def programa():
-    numAutomatas = int(sys.stdin.readline().strip())
-    for i in range(numAutomatas):
+def arbolSignificado():
+    numER = int(sys.stdin.readline())
+    for i in range(numER):
         ###print "caso --->", i + 1
-        automata = sys.stdin.readline().strip()
-        automata = list(map(str, automata))
-        # automata almacenara una lista con el orden en que deben ser operados los parentesis
-        arbolFinal = hacerArbol(automata)
-        #print (arbolFinal)
+        ER = sys.stdin.readline().strip()
+        ER = list(map(str, ER))
+        # ER almacenara una lista con el orden en que deben ser operados los parentesis
+        arbolFinal = hacerArbol(ER)
+        print (arbolFinal)
         dibujarArbol(arbolFinal, "finals")
+        return arbolFinal
 
-programa()
+arbolSignificado()

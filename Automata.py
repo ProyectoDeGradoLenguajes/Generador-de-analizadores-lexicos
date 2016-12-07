@@ -1,33 +1,27 @@
 class node(object):
 
+
     def __init__(self, estado, nombre):
         self.estado = estado
         self.nombre = nombre
-
 import sys
 import graphviz as graph
 estadoInicial = "q0"
-
-
 def make_link_automata(G, node1, node2, token):
     if node1 not in G:
         G[node1] = {}
     (G[node1])[node2] = token
     return G
 
-
 def make_link(G, node1, node2):
     if node1 not in G:
         G[node1] = {}
     (G[node1])[node2] = 1
     return G
-
-
 def make_node_arbol(nodesAutomata, estado, nombre):
     n = node(estado, nombre)
     nodesAutomata[nombre] = n
     return nombre
-
 
 def make_node_automata(nodesArbol, aceptacion, nombre):
     n = node(aceptacion, nombre)
@@ -77,12 +71,10 @@ def dibujarAutomata(G, nodesAutomata, nombre_archivo):
 
 ##########################################################################
 
-
 def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     global estadoInicial
     nInicial = ""
     nFinal = ""
-
     if len(subArbol.keys()) > 1:
         nodo1 = list(subArbol.keys())[0]
         nodesAutomata[nodo1].estado = True
@@ -117,7 +109,6 @@ def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     make_link_automata(automata, nFinal, nInicial, "lambda")
     return nInicial, nFinal
 
-
 def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     global estadoInicial
 
@@ -128,7 +119,6 @@ def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     nombre = "q" + str(estado)
     nInicial = make_node_automata(nodesAutomata, False, nombre)
     estadoInicial = nInicial
-
     estado += 1
     nombre = "q" + str(estado)
     nFinal = make_node_automata(nodesAutomata, True, nombre)
@@ -145,10 +135,8 @@ def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
 
     make_link_automata(automata, nodosFinales.pop(0), nFinal, "lambda")
     make_link_automata(automata, nodosFinales.pop(0), nFinal, "lambda")
-
     del arbol[nodoPadre]
     return nInicial, nFinal
-
 
 def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     key1 = 0
@@ -266,7 +254,6 @@ def transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
     nombre = "q" + str(estado)
     nFinalAutomata = make_node_automata(nodesAutomata, True, nombre)
     nFinalArbol = make_node_arbol(nodesArbol, False, nombre)
-
     automata = make_link_automata(
         automata, nInicialAutomata, nFinalAutomata, token)
 
@@ -321,3 +308,4 @@ dicOperaciones = {'*': 1, '+': 1, '|': 1}
 dibujarArbol(arbol, "arbolInicial")
 automata, arbol = crearAutomata(arbol, dicOperaciones)
 dibujarArbol(arbol, "arbolFinal")
+
