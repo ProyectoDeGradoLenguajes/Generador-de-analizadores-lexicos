@@ -2,8 +2,8 @@ TO DO:
 
 Parte Sebas.
 
-- Arreglar lectura para que no depende del numero de casos en el archivo de pruebas
-- Aumentar base de datos de prueba
+    - Arreglar lectura para que no depende del numero de casos en el archivo de pruebas
+    - Crear base de datos de prueba adecuada
 - Asegurar un archivo que tenga los resultados esperados de los automatas para verificar que se generan adecuadamente
 - Cambiar disposicion de archivos y comentar
 - Cambiar todo a inglés
