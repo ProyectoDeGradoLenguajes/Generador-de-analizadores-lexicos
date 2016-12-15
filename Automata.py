@@ -174,10 +174,13 @@ def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
 
 
 def parentesis(nodoPadre, subArbol):
+    dicOperaciones = {'*': estrella_kleen, '+': super_mas, '|': op_or}
+    nodoAbuelo = nodoPadre + 1
     del subArbol['(']
     del subArbol[')']
     node1 = ""
     node2 = ""
+
 
     if len(subArbol.keys()) > 1:
         node1 = list(subArbol.keys())[0]
@@ -193,26 +196,35 @@ def parentesis(nodoPadre, subArbol):
             make_link(arbol, nodoPadre, list(arbol[node2].keys())[1])
             del arbol[node2]
             del arbol[nodoPadre][node2]
-
-    else:
+            
+    elif list(arbol[nodoAbuelo].keys())[0] in dicOperaciones or list(arbol[nodoAbuelo].keys())[1] in dicOperaciones:
         node1 = list(subArbol.keys())[0]
-        make_link(arbol, nodoPadre + 1, list(arbol[node1].keys())[0])
-        make_link(arbol, nodoPadre + 1, list(arbol[node1].keys())[1])
+        make_link(arbol, nodoAbuelo, list(arbol[node1].keys())[0])
+        make_link(arbol, nodoAbuelo, list(arbol[node1].keys())[1])
         del arbol[node1]
         del arbol[nodoPadre]
-        del arbol[nodoPadre + 1][nodoPadre]
-        nodoPadre = nodoPadre + 1
-
+        del arbol[nodoAbuelo][nodoPadre]
+        nodoPadre = nodoAbuelo
+    else:
+        node1 = list(arbol[nodoPadre].keys())[0]
+        make_link(arbol, nodoPadre, list(arbol[node1].keys())[0])
+        make_link(arbol, nodoPadre, list(arbol[node1].keys())[1])
+        del arbol[node1]
+        del arbol[nodoPadre][node1]
+    
     return arbol[nodoPadre], nodoPadre
 
 
 def sel_operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     if '(' in subArbol:
         subArbol, nodoPadre = parentesis(nodoPadre, subArbol)
+        if len(subArbol)==2:
+            return nodoPadre, estado   
         
     dicOperaciones = {'*': estrella_kleen, '+': super_mas, '|': op_or}
     operador = ""
     tamaño = len(subArbol)
+
     for i in subArbol:
         tamaño -= 1
         if i in dicOperaciones:
@@ -222,7 +234,7 @@ def sel_operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArb
             tamaño += 1
         elif tamaño == 0:
             return op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
-
+    
     operacion = dicOperaciones[operador]
     del subArbol[str(operador)]
     nInicialAutomata, nFinalAutomata = operacion(
@@ -292,10 +304,10 @@ def crearAutomata(arbol, operaciones):
 #arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '*': 1, '(': 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '+': 1, '(': 1}}
-arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '(': 1}, 5: {'+': 1, 4: 1}}
+#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '(': 1}, 5: {'+': 1, 4: 1}}
 
 # prueba arbol completo
-#arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
+arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
 
 dicOperaciones = {'*': 1, '+': 1, '|': 1}
 
