@@ -158,10 +158,10 @@ Lee el archivo de entrada y delega el procesamiento por fases.
     4) Recorre el arbol de significado
 """
 def arbolSignificado():
-    numER = int(sys.stdin.readline())
-    for i in range(numER):
+    fileER = open('test.txt', 'r')
+    for ER in fileER:
         ###print "caso --->", i + 1
-        ER = sys.stdin.readline().strip()
+        ER.strip()
         ER = list(map(str, ER))
         # ER almacenara una lista con el orden en que deben ser operados los parentesis
         arbolFinal = hacerArbol(ER)
