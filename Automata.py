@@ -1,12 +1,13 @@
+import sys
+import graphviz as graph
+
+estadoInicial = "q0"
+
 class node(object):
-
-
     def __init__(self, estado, nombre):
         self.estado = estado
         self.nombre = nombre
-import sys
-import graphviz as graph
-estadoInicial = "q0"
+
 def make_link_automata(G, node1, node2, token):
     if node1 not in G:
         G[node1] = {}
@@ -18,6 +19,7 @@ def make_link(G, node1, node2):
         G[node1] = {}
     (G[node1])[node2] = 1
     return G
+
 def make_node_arbol(nodesAutomata, estado, nombre):
     n = node(estado, nombre)
     nodesAutomata[nombre] = n
@@ -27,8 +29,6 @@ def make_node_automata(nodesArbol, aceptacion, nombre):
     n = node(aceptacion, nombre)
     nodesArbol[nombre] = n
     return nombre
-##########################################################################
-
 
 def dibujarArbol(G, nombre_archivo):
     g2 = graph.Digraph(format='png')
@@ -38,7 +38,6 @@ def dibujarArbol(G, nombre_archivo):
             g2.node(str(node2))
             g2.edge(str(node1), str(node2))
     filename = g2.render(filename='imgAutomatas/' + nombre_archivo)
-
 
 def dibujarAutomata(G, nodesAutomata, nombre_archivo):
     global estadoInicial
@@ -69,8 +68,6 @@ def dibujarAutomata(G, nodesAutomata, nombre_archivo):
 
     filename = g2.render(filename='imgAutomatas/' + nombre_archivo)
 
-##########################################################################
-
 def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     global estadoInicial
     nInicial = ""
@@ -100,9 +97,7 @@ def estrella_kleen(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesAr
     make_link_automata(automata, nFinal, nInicial, "lambda")
     return nInicial, nFinal
 
-
 def super_mas(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
-
     nInicial, nFinal = estrella_kleen(
         nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
     nodesAutomata[nInicial].estado = False
@@ -237,7 +232,6 @@ def sel_operacion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArb
     nFinalArbol = make_node_arbol(nodesArbol, False, nFinalAutomata)
     make_link(arbol, nodoPadre, nIncialArbol)
     make_link(arbol, nodoPadre, nFinalArbol)
-
     estado += 2
 
     return nodoPadre, estado
@@ -308,4 +302,3 @@ dicOperaciones = {'*': 1, '+': 1, '|': 1}
 dibujarArbol(arbol, "arbolInicial")
 automata, arbol = crearAutomata(arbol, dicOperaciones)
 dibujarArbol(arbol, "arbolFinal")
-
