@@ -253,6 +253,10 @@ def transicion(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol)
     token = list(subArbol.keys())[0]
 
     nombre = "q" + str(estado)
+    if nombre in nodesAutomata:
+        estado += 1
+        nombre = "q" + str(estado)
+
     nInicialAutomata = make_node_automata(nodesAutomata, False, nombre)
     nInicialArbol = make_node_arbol(nodesArbol, True, nombre)
 
@@ -290,7 +294,7 @@ def crearAutomata(arbol, operaciones):
                 i, subArbol, automata, count, nodesAutomata, nodesArbol)
         i += 1
         #dibujarAutomata(automata, nodesAutomata, "Automata")
-        dibujarArbol(arbol, "arbolirris" + str(i))
+        dibujarAutomata(automata, nodesAutomata, "automatirris" + str(i))
     print(automata)
     dibujarAutomata(automata, nodesAutomata, "Automata")
     return automata, arbol
@@ -298,7 +302,7 @@ def crearAutomata(arbol, operaciones):
 # prueba por funciones
 #arbol = {1: {'a': 1, '*': 1}}
 #arbol = {1: {'a': 1, '+': 1}}
-#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'c': 1}, 5: {3: 1, 4: 1}, 6: {'d': 1}, 7: {5: 1, 6: 1}}
+arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'c': 1}, 5: {3: 1, 4: 1}, 6: {'d': 1}, 7: {5: 1, 6: 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'+': 1, 'c': 1}, 5: {'d': 1}, 6: {4: 1, 5: 1}, 7: {'|': 1, 3: 1, 6: 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
@@ -307,7 +311,7 @@ def crearAutomata(arbol, operaciones):
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '(': 1}, 5: {'+': 1, 4: 1}}
 
 # prueba arbol completo
-arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
+#arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
 
 dicOperaciones = {'*': 1, '+': 1, '|': 1}
 
