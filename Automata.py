@@ -134,6 +134,8 @@ def op_or(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     return nInicial, nFinal
 
 def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
+    global estadoInicial
+
     key1 = 0
     key2 = 0
     keys = list(subArbol.keys())
@@ -170,8 +172,10 @@ def op_and(nodoPadre, subArbol, automata, estado, nodesAutomata, nodesArbol):
     automata = make_link_automata(automata, nodo1, nodo2, "lambda")
     nodesAutomata[nodo1].estado = False
 
-    return nodoPadre, estado
+    if nodo2 == estadoInicial:
+        estadoInicial = nodoInicial
 
+    return nodoPadre, estado
 
 def parentesis(nodoPadre, subArbol):
     dicOperaciones = {'*': estrella_kleen, '+': super_mas, '|': op_or}
@@ -284,7 +288,6 @@ def crearAutomata(arbol, operaciones):
     i = 1
     nodos = len(arbol)
     while i <= nodos:
-        print(i) 
         subArbol = arbol[i]
         if len(subArbol) > 1:
             i, count = sel_operacion(
@@ -293,8 +296,6 @@ def crearAutomata(arbol, operaciones):
             i, count = transicion(
                 i, subArbol, automata, count, nodesAutomata, nodesArbol)
         i += 1
-        #dibujarAutomata(automata, nodesAutomata, "Automata")
-        dibujarAutomata(automata, nodesAutomata, "automatirris" + str(i))
     print(automata)
     dibujarAutomata(automata, nodesAutomata, "Automata")
     return automata, arbol
@@ -302,13 +303,17 @@ def crearAutomata(arbol, operaciones):
 # prueba por funciones
 #arbol = {1: {'a': 1, '*': 1}}
 #arbol = {1: {'a': 1, '+': 1}}
-arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'c': 1}, 5: {3: 1, 4: 1}, 6: {'d': 1}, 7: {5: 1, 6: 1}}
+#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'c': 1}, 5: {3: 1, 4: 1}, 6: {'d': 1}, 7: {5: 1, 6: 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1}, 4: {'+': 1, 'c': 1}, 5: {'d': 1}, 6: {4: 1, 5: 1}, 7: {'|': 1, 3: 1, 6: 1}}
 #arbol = {1: {'a': 1, '*': 1}, 2: {'+': 1, 'b': 1}, 3: {1: 1, 2: 1}, 4: {'x': 1}, 5: {3: 1, 4: 1}, 6: {'+': 1, 'c': 1}, 7: {'d': 1, '*': 1}, 8: {6: 1, 7: 1}, 9: {'y': 1}, 10: {8: 1, 9: 1}, 11: {10: 1, 5: 1, '|': 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '*': 1, '(': 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '+': 1, '(': 1}}
 #arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {')': 1, 3: 1, '(': 1}, 5: {'+': 1, 4: 1}}
+#arbol = {1: {'x': 1}, 2: {'a': 1}, 3: {'b': 1}, 4: {2: 1, 3: 1, '|': 1}, 5: {')': 1, 4: 1, '(': 1}, 6: {1: 1, 5: 1}, 7: {'y': 1}, 8: {6: 1, 7: 1}}
+#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {'|': 1, 1: 1, 2: 1}, 4: {'c': 1}, 5: {'|': 1, 3: 1, 4: 1}}
+#arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {'c': 1}, 5: {3: 1, 4: 1, '|': 1}, 6: {'d': 1}, 7: {5: 1, 6: 1, '|': 1}, 8: {'e': 1}, 9: {8: 1, '|': 1, 7: 1}, 10: {'f': 1}, 11: {9: 1, 10: 1, '|': 1}, 12: {'g': 1}, 13: {11: 1, 12: 1, '|': 1}, 14: {'e': 1}, 15: {13: 1, 14: 1, '|': 1}}
+arbol = {1: {'a': 1}, 2: {'b': 1}, 3: {1: 1, 2: 1, '|': 1}, 4: {'c': 1}, 5: {3: 1, 4: 1, '|': 1}, 6: {'d': 1}, 7: {'|': 1, 5: 1, 6: 1}, 8: {')': 1, '*': 1, '(': 1, 7: 1}}
 
 # prueba arbol completo
 #arbol = {1: {'a': 1}, 2: {'+': 1, 'x': 1}, 3: {'y': 1}, 4: {2: 1, 3: 1}, 5: {'(': 1, 4: 1, ')': 1}, 6: {'*': 1, 5: 1}, 7: {'*': 1, 'b': 1}, 8: {'c': 1}, 9: {8: 1, 7: 1}, 10: {9: 1, '(': 1, ')': 1}, 11: {10: 1, '+': 1}, 12: {11: 1, 6: 1, '|': 1}, 13: {'(': 1, 12: 1, ')': 1}, 14: {1: 1, 13: 1}, 15: {'s': 1}, 16: {14: 1, 15: 1}}
