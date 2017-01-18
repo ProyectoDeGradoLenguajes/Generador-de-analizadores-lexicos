@@ -5,3 +5,4 @@ img/
 .vscode/
 __pycache__/
 imgAutomatas/
+.DS_store
