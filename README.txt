@@ -19,7 +19,9 @@ the project TLON in the National University of Colombia.
 
 Use instructions:
 
-1- Instal the requirements in the file requirements.txt, we recommend doing it with pip, just go to bash,
+1- Install python 3.5.0, you can do it from here https://www.python.org/downloads/release/python-350/.
+
+install the requirements in the file requirements.txt, we recommend doing it with pip, just go to bash,
 set it in the root of the actual project and exec:
 
 pip install -r requirements.txt

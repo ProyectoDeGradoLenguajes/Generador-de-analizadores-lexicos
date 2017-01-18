@@ -3,3 +3,5 @@ test.py
 test.txt
 img/
 .vscode/
+__pycache__/
+imgAutomatas/
