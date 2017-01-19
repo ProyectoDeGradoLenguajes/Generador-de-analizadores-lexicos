@@ -1,9 +1,18 @@
 (⌐■_■)
-1
-2
+import sys
+import math
 (⌐■_■)
-3
-4
+a*          subject name1(print('subjetc'))
+a|b        verb     name2(print(verb))
+c|d     id                  name3(print('id'))
+d+ id           name4(print('id'))
 (⌐■_■)
-5
-6
+def test:
+    print("test is ok")
+    pass
+
+def secondTest:
+    print("Its alrigth dude")
+
+test()
+secondTest
