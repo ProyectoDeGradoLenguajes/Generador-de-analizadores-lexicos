@@ -1,21 +1,22 @@
 import sys
 #Read the input file structure
 def readStructure(ifile, ofile, token):
-    counter = 0
     inputFile = open(ifile, 'r')
+    if (inputFile.readline().strip() != token):
+        sys.error("Incorrect token in start")
+    else:
+        copySection(ofile, inputFile, token)
+
+#Copy and paste code in first and third section in the output file
+def copySection(ofile, inputFile, token):
+    counter = 0
+    outputFile = open(ofile, 'w')
     for line in inputFile:
         line = line.strip()
         if (line == token):
-            counter += 1
-        if( counter%2 != 0):
-            copySection(ofile, line)
-        else:
             analizerSection(line)
-
-#Copy and paste code in first and third section in the output file
-def copySection(ofile, line):
-    outputFile = open(ofile, 'a')
-    outputFile.write(line)
+            continue
+        outputFile.write(line + '\n')
     outputFile.close()
     return
 
