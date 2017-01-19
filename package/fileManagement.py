@@ -14,13 +14,17 @@ def copySection(ofile, inputFile, token):
     for line in inputFile:
         line = line.strip()
         if (line == token):
-            analizerSection(line)
+            analizerSection(outputFile, inputFile, token)
             continue
         outputFile.write(line + '\n')
     outputFile.close()
     return
 
 #Opera segunda seccion
-def analizerSection(line):
+def analizerSection(outputFile, inputFile, token):
+    line = inputFile.readline().strip()
+    while(line != token):
+        outputFile.write("sexy\n")
+        line = inputFile.readline().strip()
     pass
 
