@@ -1,9 +1,10 @@
 import sys
+import re
 #Read the input file structure
 def readStructure(ifile, ofile, token):
     inputFile = open(ifile, 'r')
     if (inputFile.readline().strip() != token):
-        sys.error("Incorrect token in start")
+        sys.error("The file should start with " + token)
     else:
         copySection(ofile, inputFile, token)
 
@@ -20,11 +21,14 @@ def copySection(ofile, inputFile, token):
     outputFile.close()
     return
 
-#Opera segunda seccion
+#Takes the second section, create his automaton and link it with the corresponding functions
 def analizerSection(outputFile, inputFile, token):
     line = inputFile.readline().strip()
     while(line != token):
-        outputFile.write("sexy\n")
+        line = re.split('[\s]+', line)
+        for i in line:
+            print(i)
+        outputFile.write(line[0] + " " + line[1] + " " + line[2] + "\n")
         line = inputFile.readline().strip()
     pass
 
