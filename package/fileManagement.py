@@ -23,12 +23,29 @@ def copySection(ofile, inputFile, token):
 
 #Takes the second section, create his automaton and link it with the corresponding functions
 def analizerSection(outputFile, inputFile, token):
+    tlonIds = {
+                'tlonId':tlonId,
+                'tlonSet':tlonSet,
+                'tlonVerb':tlonVerb,
+                'tlonDefinition':tlonDefinition,
+                'tlonSubject':tlonSubject,
+                'tlonAdjectives':tlonAdjectives
+               }
     line = inputFile.readline().strip()
     while(line != token):
         line = re.split('[\s]+', line)
-        for i in line:
-            print(i)
+        """Proceess the RE with Sebastian code print(line[0])"""
+        print(line[1])
+        print(line[2])        
         outputFile.write(line[0] + " " + line[1] + " " + line[2] + "\n")
         line = inputFile.readline().strip()
-    pass
+    return tokens
+
+def tlonId():
+    #TODO
+    print("fun1")
+
+def tlonVerb():
+    #TODO
+    print("func2")
 
