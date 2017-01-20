@@ -158,7 +158,7 @@ Lee el archivo de entrada y delega el procesamiento por fases.
     4) Recorre el arbol de significado
 """
 def arbolSignificado():
-    fileER = open('test.txt', 'r')
+    fileER = open('test/prueba.txt', 'r')
     for ER in fileER:
         ###print "caso --->", i + 1
         ER.strip()

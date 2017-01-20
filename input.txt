@@ -1,0 +1,18 @@
+(⌐■_■)
+import sys
+import math
+(⌐■_■)
+a*          tlonId name1(print('subjetc'))
+a|b        tlonVerb     name2(print(verb))
+c|d     tlonId                  name3(print('id'))
+d+ tlonId           name4(print('id'))
+(⌐■_■)
+def test:
+    print("test is ok")
+    pass
+
+def secondTest:
+    print("Its alrigth dude")
+
+test()
+secondTest
