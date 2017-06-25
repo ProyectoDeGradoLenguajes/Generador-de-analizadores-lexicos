@@ -1,5 +1,6 @@
 import sys
 import graphviz as graph
+import package.Parse_Tree
 
 class State(object):
     def __init__(self, aceptation, name):
@@ -45,7 +46,7 @@ def drawAutomata(G, startState, nodesAutomata, nombre_archivo):
             if nodesAutomata[node2].aceptation == True:
                 g2.node(node2, _attributes={"shape": "doublecircle", "color": "black", "fontcolor": "black"})
 
-    filename = g2.render(filename='imgAutomatas/' + nombre_archivo)
+    filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
 
 def delete_lambda(AFN, AFN_e, parent, u, neighbor):
     if AFN_e[u][neighbor] == "lambda":
@@ -254,7 +255,8 @@ def select_transition(AFN_e, Tree, node, nodesAutomata, state, startState):
 
     return AFN_e, Tree, nodesAutomata, state, startState
 
-def makeAutomata(Tree):
+def makeAutomata():
+    Tree = package.Parse_Tree.parseTree()
     AFN_e = {}
     nodesAutomata = {}
 
@@ -272,3 +274,5 @@ def makeAutomata(Tree):
         i += 1
     drawAutomata(AFN_e, startState, nodesAutomata, "automata_final")
     AFN = make_AFN(AFN_e, startState, nodesAutomata)
+
+makeAutomata()

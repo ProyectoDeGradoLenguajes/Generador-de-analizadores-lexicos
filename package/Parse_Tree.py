@@ -1,5 +1,6 @@
 import sys
 import graphviz as graph
+import os
 
 def make_link(G, node1, node2):
     if node1 not in G:
@@ -14,7 +15,7 @@ def drawTree(G, etiqueta):
             g2.node(str(node1))
             g2.node(str(node2))
             g2.edge(str(node1), str(node2))
-    filename = g2.render(filename='img/g' + etiqueta)
+    filename = g2.render(filename='../graphs/parse_tree/g' + etiqueta)
 
 def op_unary(tree, node, node_aux, character):
     if len(tree[node_aux]) > 1:
@@ -82,7 +83,6 @@ def op_concatenation(tree, node, node1, node2, pair, character):
     return tree, node, pair
 
 def makeSubTree(tree, sub_ER, node):
-    global cont
     unary_operations = {'*': op_unary, '+': op_unary}
     binary_operations = {'|': 1, ')': 1}
     pair = 0;
@@ -92,7 +92,6 @@ def makeSubTree(tree, sub_ER, node):
     # print(sub_ER)
     i = 0
     while i < len(sub_ER):
-        cont += 1
         character = sub_ER[i]
         prev_character = sub_ER[i - 1]
         if type(prev_character) is int and sub_ER[i] in unary_operations:
@@ -118,7 +117,6 @@ def makeSubTree(tree, sub_ER, node):
                 node2 = node - 2
                 tree, node, pair = op_concatenation(tree, node, node1, node2, pair, character)
         i += 1
-        drawTree(tree, str(cont))
     return tree, node
 
 
@@ -149,13 +147,12 @@ def makeTree(ER):
         i += 1
     return tree
 
-def parseTree(fileER):
-    #fileER = open('test/prueba.txt', 'r')
+def parseTree():
+    filePath = os.path.realpath('../test/simpleTest.txt')
+    fileER = open(filePath, 'r')
     for ER in fileER:
-        # print "caso --->", i + 1
         ER = "(" + ER + ")"
         ER = list(map(str, ER))
-        # ER almacenara una lista con el orden en que deben ser operados los
-        # parentesis
         final_tree = makeTree(ER)
-        drawTree(final_tree, "finals")
+        drawTree(final_tree, "final")
+        return final_tree
