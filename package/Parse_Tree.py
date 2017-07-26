@@ -2,11 +2,13 @@ import sys
 import graphviz as graph
 import os
 
+
 def make_link(G, node1, node2):
     if node1 not in G:
         G[node1] = {}
     (G[node1])[node2] = 1
     return G
+
 
 def drawTree(G, etiqueta):
     g2 = graph.Digraph(format='png')
@@ -16,6 +18,7 @@ def drawTree(G, etiqueta):
             g2.node(str(node2))
             g2.edge(str(node1), str(node2))
     filename = g2.render(filename='../graphs/parse_tree/g' + etiqueta)
+
 
 def op_unary(tree, node, node_aux, character):
     if len(tree[node_aux]) > 1:
@@ -41,6 +44,7 @@ def op_unary(tree, node, node_aux, character):
 
     return tree, node
 
+
 def op_OR(tree, node, position_or, pair, character):
     if (len(position_or) == 0):
         position_or.append(node - 1)
@@ -60,6 +64,7 @@ def op_OR(tree, node, position_or, pair, character):
 
         node += 1
     return tree, node, position_or, pair
+
 
 def op_concatenation(tree, node, node1, node2, pair, character):
     flag = False
@@ -82,10 +87,11 @@ def op_concatenation(tree, node, node1, node2, pair, character):
 
     return tree, node, pair
 
+
 def makeSubTree(tree, sub_ER, node):
     unary_operations = {'*': op_unary, '+': op_unary}
     binary_operations = {'|': 1, ')': 1}
-    pair = 0;
+    pair = 0
     position_or = []
 
     sub_ER.pop(0)
@@ -101,30 +107,37 @@ def makeSubTree(tree, sub_ER, node):
             if type(prev_character) is int:
                 node1 = character - 1
                 node2 = prev_character - 1
-                tree, node, pair = op_concatenation(tree, node, node1, node2, pair, character)
+                tree, node, pair = op_concatenation(
+                    tree, node, node1, node2, pair, character)
             else:
                 node1 = node - 1
                 node2 = character - 1
-                tree, node, pair = op_concatenation(tree, node, node1, node2, pair, character)
+                tree, node, pair = op_concatenation(
+                    tree, node, node1, node2, pair, character)
 
         elif type(character) is str:
             if character in unary_operations:
                 tree, node = op_unary(tree, node, 0, character)
             elif character in binary_operations:
-                tree, node, position_or, pair = op_OR(tree, node, position_or, pair, character)
+                tree, node, position_or, pair = op_OR(
+                    tree, node, position_or, pair, character)
             else:
                 node1 = node - 1
                 node2 = node - 2
-                tree, node, pair = op_concatenation(tree, node, node1, node2, pair, character)
+                tree, node, pair = op_concatenation(
+                    tree, node, node1, node2, pair, character)
         i += 1
     return tree, node
 
 
 def makeTree(ER):
-    tree = {}
-    node = 1
     numbers = {"1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight",
                "9": "nine", "0": "zero"}
+    operations = {"*": 0, "|": 0, "+": 0, "(": 0, ")": 0}
+
+    tree = {}
+    alphabet = {}
+    node = 1
     parenthesis_position = []
 
     i = 0
@@ -133,6 +146,9 @@ def makeTree(ER):
 
         if character.isdigit():
             ER[i] = numbers[character]
+
+        if ER[i] not in alphabet and character not in operations:
+            alphabet[ER[i]] = 0
 
         if (character == "("):
             parenthesis_position.append(i)
@@ -145,7 +161,8 @@ def makeTree(ER):
             ER.insert(parenthesis, node)
             i = parenthesis
         i += 1
-    return tree
+    return tree, alphabet
+
 
 def parseTree():
     filePath = os.path.realpath('../test/simpleTest.txt')
@@ -153,6 +170,6 @@ def parseTree():
     for ER in fileER:
         ER = "(" + ER + ")"
         ER = list(map(str, ER))
-        final_tree = makeTree(ER)
+        final_tree, alphabet = makeTree(ER)
         drawTree(final_tree, "final")
-        return final_tree
+        return final_tree, alphabet
