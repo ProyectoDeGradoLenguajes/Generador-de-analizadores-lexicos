@@ -15,6 +15,7 @@ def make_link_AFNe(G, node1, node2, token):
     (G[node1])[node2] = token
     return G
 
+
 def make_link_AFN(G, node1, node2, token):
     if node1 not in G:
         G[node1] = {}
@@ -23,6 +24,7 @@ def make_link_AFN(G, node1, node2, token):
     else:
         (G[node1])[node2] = [token]
     return G
+
 
 def make_link_tree(G, node1, node2, token):
     if node1 not in G:
@@ -37,7 +39,33 @@ def make_state(nodesAutomata, aceptation, name):
     return nodesAutomata
 
 
-def drawAutomata(G, startState, nodesAutomata, nombre_archivo):
+def drawAFN(G, startState, nodesAutomata, nombre_archivo):
+    g2 = graph.Digraph(format='png')
+    g2.attr("graph", _attributes={"rankdir": "LR"})
+    g2.node("start", _attributes={"shape": "point",
+                                  "color": "white", "fontcolor": "white"})
+    g2.edge("start", "q" + str(startState))
+    for node1 in G:
+        if nodesAutomata[node1].aceptation == True:
+            g2.node(node1, _attributes={
+                    "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+        else:
+            g2.node(str(node1))
+            g2.node(node1, _attributes={"shape": "circle"})
+
+        for node2 in G[node1]:
+            if nodesAutomata[node2].aceptation == True:
+                g2.node(node2, _attributes={
+                        "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+            else:
+                g2.node(str(node2))
+                g2.node(node2, _attributes={"shape": "circle"})
+            for _label_ in G[node1][node2]:
+                g2.edge(str(node1), str(node2), label=_label_)
+    filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
+
+
+def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
     g2 = graph.Digraph(format='png')
     g2.attr("graph", _attributes={"rankdir": "LR"})
     g2.node("start", _attributes={"shape": "point",
@@ -45,22 +73,21 @@ def drawAutomata(G, startState, nodesAutomata, nombre_archivo):
     g2.edge("start", "q" + str(startState))
 
     for node1 in G:
-        for node2 in G[node1]:
-            g2.node(str(node1))
-            g2.node(node1, _attributes={"shape": "circle"})
-            g2.node(str(node2))
-            g2.node(node2, _attributes={"shape": "circle"})
-            g2.edge(str(node1), str(node2), label=G[node1][node2])
-
-    for node1 in G:
         if nodesAutomata[node1].aceptation == True:
             g2.node(node1, _attributes={
                     "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+        else:
+            g2.node(str(node1))
+            g2.node(node1, _attributes={"shape": "circle"})
+
         for node2 in G[node1]:
             if nodesAutomata[node2].aceptation == True:
                 g2.node(node2, _attributes={
                         "shape": "doublecircle", "color": "black", "fontcolor": "black"})
-
+            else:
+                g2.node(str(node2))
+                g2.node(node2, _attributes={"shape": "circle"})
+            g2.edge(str(node1), str(node2), label=G[node1][node2])
     filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
 
 
@@ -111,11 +138,12 @@ def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
                 word = word + AFN_e[u][neighbor]
             if nodesAutomata[neighbor].aceptation:
                 if word == symbol:
-                    make_link_AFN(AFN,startNode,neighbor,symbol)
+                    make_link_AFN(AFN, startNode, neighbor, symbol)
             if color[neighbor] == "black":
                 word = ""
         color[u] = 'black'
     return AFN
+
 
 def make_AFN(AFN_e, startState, nodesAutomata, alphabet):
     AFN = {}
@@ -123,7 +151,7 @@ def make_AFN(AFN_e, startState, nodesAutomata, alphabet):
         for symbol in alphabet:
             AFN = DFS_AFN(AFN_e, node, nodesAutomata, symbol, AFN)
     print(AFN)
-    #drawAutomata(AFN, startState, nodesAutomata, "AFNfinal")
+    drawAFN(AFN, startState, nodesAutomata, "AFNfinal")
     return AFN
 
 
@@ -291,7 +319,7 @@ def makeAutomata():
             AFN_e, Tree, nodesAutomata, state, startState = select_transition(AFN_e, Tree, i, nodesAutomata, state,
                                                                               startState)
         i += 1
-    drawAutomata(AFN_e, startState, nodesAutomata, "automata_final")
+    drawAFNe(AFN_e, startState, nodesAutomata, "automata_final")
     AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
 
 
