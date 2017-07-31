@@ -91,48 +91,38 @@ def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
     filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
 
 
-def delete_lambda(AFN, AFN_e, parent, u, neighbor):
-
-    gfather = parent[u]
-    father = u
-    sons = AFN_e[u]
-
-    print(gfather, father, sons)
-    return AFN
-
-
-def delete_limboState(AFN, nodesAutomata):
-    i = 0
-    while i < len(AFN):
-        nodes1 = list(AFN.keys())
-        node1 = nodes1[i]
-
-        j = 0
-        while j < len(AFN[node1]):
-            nodes2 = list(AFN[node1].keys())
-            node2 = nodes2[j]
-            if node2 not in AFN and nodesAutomata[node2].aceptation == False:
-                del AFN[node1][node2]
-            j += 1
-        i += 1
+def delete_limboState(AFN, startNode, nodesAutomata):
+    color = {}
+    for v in AFN:
+        color[v] = 'white'
+    color[startNode] = 'gray'
+    nodelist = [startNode]
+    while nodelist != []:
+        u = nodelist.pop()
+        for neighbor in AFN[u]:
+            if color[neighbor] == 'white':
+                color[neighbor] = 'gray'
+                nodelist.append(neighbor)
+        color[u] = 'black'
+    for state in color:
+        if color[state] == "white":
+            del AFN[state]
+            del nodesAutomata[state]
     return AFN
 
 
 def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
     word = ""
     color = {}
-    parent = {}
     for v in AFN_e:
         color[v] = 'white'
     color[startNode] = 'gray'
-    parent[startNode] = None
     nodelist = [startNode]
     while nodelist != []:
         u = nodelist.pop()
         for neighbor in AFN_e[u]:
             if color[neighbor] == 'white':
                 color[neighbor] = 'gray'
-                parent[neighbor] = u
                 nodelist.append(neighbor)
             if AFN_e[u][neighbor] != "lambda":
                 word = word + AFN_e[u][neighbor]
@@ -150,7 +140,7 @@ def make_AFN(AFN_e, startState, nodesAutomata, alphabet):
     for node in nodesAutomata.keys():
         for symbol in alphabet:
             AFN = DFS_AFN(AFN_e, node, nodesAutomata, symbol, AFN)
-    print(AFN)
+    delete_limboState(AFN, "q" + str(startState), nodesAutomata)
     drawAFN(AFN, startState, nodesAutomata, "AFNfinal")
     return AFN
 
