@@ -111,6 +111,60 @@ def delete_limboState(AFN, startNode, nodesAutomata):
     return AFN
 
 
+def make_AFD(AFN, startNode, nodesAutomata, alphabet):
+    AFD = {}
+    newStates = {}
+    num_state = 0
+
+    nodes = list(nodesAutomata.keys())
+    while nodes != []:
+        node = nodes.pop(0)
+
+        for symbol in alphabet:
+            state = {}
+            isNew = True
+
+            if node in AFN:
+                for node2 in AFN[node].keys():
+                    if symbol in AFN[node][node2]:
+                        state[node2] = 0
+            else:
+                for newState in newStates:
+                    for oldState in newStates[newState]:
+                        for node2 in AFN[oldState].keys():
+                            if symbol in AFN[oldState][node2]:
+                                state[node2] = 0
+
+            if len(state) > 1:
+                for newState in newStates:
+                    if newStates[newState] == state:
+                        make_link_AFN(AFD, node, newState, symbol)
+                        isNew = False
+                        break
+                if isNew:
+                    nameState = "q" + str(num_state)
+                    while nameState in nodesAutomata.keys():
+                        num_state += 1
+                        nameState = "q" + str(num_state)
+                    num_state += 1
+                    newStates[nameState] = state
+                    make_link_AFN(AFD, node, nameState, symbol)
+                    nodes.append(nameState)
+            else:
+                make_link_AFN(AFD, node, list(state.keys())[0], symbol)
+
+    for newState in newStates:
+        for oldState in newStates[newState]:
+            if nodesAutomata[oldState].aceptation:
+                make_state(nodesAutomata, True, newState)
+            else:
+                make_state(nodesAutomata, False, newState)
+
+    delete_limboState(AFD, "q" + str(startNode), nodesAutomata)
+    drawAFN(AFD, startNode, nodesAutomata, "AFD")
+    return AFD
+
+
 def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
     word = ""
     color = {}
@@ -141,7 +195,7 @@ def make_AFN(AFN_e, startState, nodesAutomata, alphabet):
         for symbol in alphabet:
             AFN = DFS_AFN(AFN_e, node, nodesAutomata, symbol, AFN)
     delete_limboState(AFN, "q" + str(startState), nodesAutomata)
-    drawAFN(AFN, startState, nodesAutomata, "AFNfinal")
+    drawAFN(AFN, startState, nodesAutomata, "AFN")
     return AFN
 
 
@@ -309,8 +363,9 @@ def makeAutomata():
             AFN_e, Tree, nodesAutomata, state, startState = select_transition(AFN_e, Tree, i, nodesAutomata, state,
                                                                               startState)
         i += 1
-    drawAFNe(AFN_e, startState, nodesAutomata, "automata_final")
+    drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e")
     AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
+    AFD = make_AFD(AFN, startState, nodesAutomata, alphabet)
 
 
 makeAutomata()

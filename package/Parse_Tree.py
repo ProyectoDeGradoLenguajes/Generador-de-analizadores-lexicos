@@ -136,7 +136,7 @@ def makeTree(ER):
     operations = {"*": 0, "|": 0, "+": 0, "(": 0, ")": 0}
 
     tree = {}
-    alphabet = {}
+    alphabet = []
     node = 1
     parenthesis_position = []
 
@@ -148,7 +148,7 @@ def makeTree(ER):
             ER[i] = numbers[character]
 
         if ER[i] not in alphabet and character not in operations:
-            alphabet[ER[i]] = 0
+            alphabet.append(ER[i])
 
         if (character == "("):
             parenthesis_position.append(i)
