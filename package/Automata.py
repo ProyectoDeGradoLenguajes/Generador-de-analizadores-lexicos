@@ -367,5 +367,7 @@ def makeAutomata():
     AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
     AFD = make_AFD(AFN, startState, nodesAutomata, alphabet)
 
-
 makeAutomata()
+    ##return AFD, startState, nodesAutomata
+
+

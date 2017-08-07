@@ -1,26 +1,16 @@
-# -*- coding: utf-8 -*-
-
-import sys
-import re
+import sysimport sys
+import math
 
 
-def open_File():
-    name_file = sys.argv[1]
-    file = open(name_file, encoding="utf8")
-    return file
+def test:
+    print("test is ok")
+    pass
 
 
-def close_file(file):
-    file.close()
+def secondTest:
+    print("Its alrigth dude")
 
 
-def create_file():
-    file = open("../Analizer.py", "w")
-    return file
-
-
-def analizer_Code():
-    code = """
 def automata_Search(AFD, startState, nodesAutomata, word):
     isAcepted = False
     nextState = startState
@@ -54,28 +44,5 @@ def main():
     result = automata_Search(AFD, startState, nodesAutomata, word)
     print(result)
 
+
 main()
-"""
-    return code
-def generate_Code():
-    file_input = open_File()
-    file_output = create_file()
-    file_output.write("import sys")
-
-    counter = 0
-    for line in file_input:
-        if line != "(O_O¬)\n" and counter == 1:
-            file_output.write(line)
-        elif line != "(O_O¬)\n" and counter == 2:
-            line = line.strip('\n')
-            line = re.split('[\s]+', line)
-        elif line != "(O_O¬)\n" and counter == 3:
-            file_output.write(line)
-        else:
-            counter += 1
-    file_output.write(analizer_Code())
-
-    file_input.close()
-    file_output.close()
-
-generate_Code()
