@@ -2,9 +2,6 @@ digraph {
 	graph [rankdir=LR]
 	start [color=white fontcolor=white shape=point]
 		start -> q7
-	q1 [color=black fontcolor=black shape=doublecircle]
-	q7 [color=black fontcolor=black shape=doublecircle]
-		q1 -> q7 [label=lambda]
 	q4
 	q4 [shape=circle]
 	q2
@@ -13,6 +10,23 @@ digraph {
 	q0
 	q0 [shape=circle]
 		q4 -> q0 [label=lambda]
+	q3 [color=black fontcolor=black shape=doublecircle]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q3 -> q7 [label=lambda]
+	q0
+	q0 [shape=circle]
+	q1 [color=black fontcolor=black shape=doublecircle]
+		q0 -> q1 [label=a]
+	q6 [color=black fontcolor=black shape=doublecircle]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q6 -> q7 [label=lambda]
+	q1 [color=black fontcolor=black shape=doublecircle]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q1 -> q7 [label=lambda]
+	q5
+	q5 [shape=circle]
+	q6 [color=black fontcolor=black shape=doublecircle]
+		q5 -> q6 [label=c]
 	q7 [color=black fontcolor=black shape=doublecircle]
 	q4
 	q4 [shape=circle]
@@ -20,22 +34,8 @@ digraph {
 	q5
 	q5 [shape=circle]
 		q7 -> q5 [label=lambda]
-	q5
-	q5 [shape=circle]
-	q6 [color=black fontcolor=black shape=doublecircle]
-		q5 -> q6 [label=c]
-	q3 [color=black fontcolor=black shape=doublecircle]
-	q7 [color=black fontcolor=black shape=doublecircle]
-		q3 -> q7 [label=lambda]
-	q6 [color=black fontcolor=black shape=doublecircle]
-	q7 [color=black fontcolor=black shape=doublecircle]
-		q6 -> q7 [label=lambda]
 	q2
 	q2 [shape=circle]
 	q3 [color=black fontcolor=black shape=doublecircle]
 		q2 -> q3 [label=b]
-	q0
-	q0 [shape=circle]
-	q1 [color=black fontcolor=black shape=doublecircle]
-		q0 -> q1 [label=a]
 }

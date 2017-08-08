@@ -1,7 +1,11 @@
 import sys 
-import sys
 import math
- 
+def test():
+    print("test is ok")
+    pass
+
+def secondTest():
+    print("Its alrigth dude") 
 
 def automata_Search(AFD, startState, nodesAutomata, word):
     isAcepted = False
@@ -25,9 +29,9 @@ def automata_Search(AFD, startState, nodesAutomata, word):
 
 def main():
           
-    AFD = {'q4': {'q4': ['a'], 'q2': ['c'], 'q0': ['b']}, 'q7': {'q4': ['a'], 'q2': ['c'], 'q0': ['b']}, 'q2': {'q4': ['a'], 'q2': ['c'], 'q0': ['b']}, 'q0': {'q4': ['a'], 'q2': ['c'], 'q0': ['b']}}
+    AFD = {'q4': {'q4': ['b'], 'q2': ['c'], 'q0': ['a']}, 'q0': {'q4': ['b'], 'q2': ['c'], 'q0': ['a']}, 'q2': {'q4': ['b'], 'q2': ['c'], 'q0': ['a']}, 'q7': {'q4': ['b'], 'q2': ['c'], 'q0': ['a']}}
     startState = 'q7'
-    nodesAutomata = {'q4': True, 'q2': True, 'q0': True, 'q7': True}
+    nodesAutomata = {'q4': True, 'q0': True, 'q2': True, 'q7': True}
 
     word = sys.stdin.readline().strip('\n')
     word = list(map(str, word))

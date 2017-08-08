@@ -3,3 +3,10 @@ import sys
 import math
 (O_O¬)
 (a|b|c)* print('letra')
+(O_O¬)
+def test():
+    print("test is ok")
+    pass
+
+def secondTest():
+    print("Its alrigth dude")

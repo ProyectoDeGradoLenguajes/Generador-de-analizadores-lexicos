@@ -1,6 +1,7 @@
 import sys
 import re
 import Automata
+import os
 
 
 def open_File():
@@ -62,27 +63,39 @@ main()
 
 
 def generate_Code():
+    token = "(O_O¬)\n"
+
     file_input = open_File()
+    if file_input.readline() != token:
+        file_input.close()
+        print("The file should start with " + token)
+        return
+
     file_output = create_file()
     file_output.write("import sys \n")
     ERs = []
 
     counter = 0
     for line in file_input:
-        if line != "(O_O¬)\n" and counter == 1:
+        if line != token and counter == 1:
             file_output.write(line)
-        elif line != "(O_O¬)\n" and counter == 2:
+        elif line != token and counter == 2:
             line = line.strip('\n')
             line = re.split('[\s]+', line)
             ERs.append(line[0])
-        elif line != "(O_O¬)\n" and counter == 3:
+        elif line != token and counter == 3:
             file_output.write(line)
         else:
             counter += 1
+    
+    if counter < 2:
+        file_input.close()
+        file_output.close()
+        os.remove("../Analyzer.py")
+        print ("The file does not contain regular expressions")
+        return
 
     AFD, startState, nodesAutomata = Automata.makeAutomata(ERs)
-    print(AFD.keys())
-    print(nodesAutomata)
     analizer_Code(file_output, AFD, startState, nodesAutomata)
 
     file_input.close()
