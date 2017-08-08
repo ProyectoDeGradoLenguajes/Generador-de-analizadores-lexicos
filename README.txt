@@ -29,14 +29,14 @@ pip install -r requirements.txt
 If you dont have pip installed you can follow the documentation here:
 https://pip.pypa.io/en/stable/installing/
 
-2- YAFP recieves as input one file with 3 segmests with "(⌐■_■)" indicator at the start of the line,
+2- YAFP recieves as input one file with 3 segmests with "(O_O¬)" indicator at the start of the line,
 it should see something like that:
 
-(⌐■_■)  "imports"
+(O_O¬)  "imports"
 <...Your code goes here...>
-(⌐■_■)  "Regular expressions"
+(O_O¬)  "Regular expressions"
 <...Your code goes here...>
-(⌐■_■)  "other functions"
+(O_O¬)  "other functions"
 <...Your code goes here...>
 
 Just fill it with python code, the imports and other functions segment is just python 3.5 code, the Regular expressions

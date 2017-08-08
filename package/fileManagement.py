@@ -14,7 +14,7 @@ def close_file(file):
 
 
 def create_file():
-    file = open("../Analizer.py", "w")
+    file = open("../Analyzer.py", "w")
     return file
 
 
@@ -44,10 +44,10 @@ def automata_Search(AFD, startState, nodesAutomata, word):
 def main():
           
 """
-    )
+               )
     file.write("    AFD = " + str(AFD) + "\n")
-    file.write("    startState = 'q" + str(startState) + "'\n") 
-    
+    file.write("    startState = 'q" + str(startState) + "'\n")
+
     file.write("    nodesAutomata = " + str(nodesAutomata) + "\n")
     file.write("""
     word = sys.stdin.readline().strip('\\n')
@@ -58,14 +58,15 @@ def main():
 
 main()
 """
-    )
+               )
+
 
 def generate_Code():
     file_input = open_File()
     file_output = create_file()
     file_output.write("import sys \n")
     ERs = []
-    
+
     counter = 0
     for line in file_input:
         if line != "(O_O¬)\n" and counter == 1:
@@ -78,7 +79,7 @@ def generate_Code():
             file_output.write(line)
         else:
             counter += 1
-    
+
     AFD, startState, nodesAutomata = Automata.makeAutomata(ERs)
     print(AFD.keys())
     print(nodesAutomata)
@@ -86,5 +87,6 @@ def generate_Code():
 
     file_input.close()
     file_output.close()
+
 
 generate_Code()
