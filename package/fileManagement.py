@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import sys
 import re
+import Automata
 
 
 def open_File():
@@ -19,8 +18,9 @@ def create_file():
     return file
 
 
-def analizer_Code():
-    code = """
+def analizer_Code(file, AFD, startState, nodesAutomata):
+    file.write(""" 
+
 def automata_Search(AFD, startState, nodesAutomata, word):
     isAcepted = False
     nextState = startState
@@ -41,14 +41,16 @@ def automata_Search(AFD, startState, nodesAutomata, word):
         isAcepted = True
     return isAcepted
 
-
 def main():
-    AFD = {'q2': {'q2': ['b'], 'q4': ['c'], 'q0': ['a']}, 'q7': {'q2': ['b'], 'q4': ['c'], 'q0': [
-        'a']}, 'q0': {'q2': ['b'], 'q4': ['c'], 'q0': ['a']}, 'q4': {'q2': ['b'], 'q4': ['c'], 'q0': ['a']}}
-    startState = 'q7'
-    nodesAutomata = {'q2': True, 'q7': True, 'q0': True, 'q4': True}
-
-    word = sys.stdin.readline().strip('\n')
+          
+"""
+    )
+    file.write("    AFD = " + str(AFD) + "\n")
+    file.write("    startState = 'q" + str(startState) + "'\n") 
+    
+    file.write("    nodesAutomata = " + str(nodesAutomata) + "\n")
+    file.write("""
+    word = sys.stdin.readline().strip('\\n')
     word = list(map(str, word))
 
     result = automata_Search(AFD, startState, nodesAutomata, word)
@@ -56,12 +58,14 @@ def main():
 
 main()
 """
-    return code
+    )
+
 def generate_Code():
     file_input = open_File()
     file_output = create_file()
-    file_output.write("import sys")
-
+    file_output.write("import sys \n")
+    ERs = []
+    
     counter = 0
     for line in file_input:
         if line != "(O_O¬)\n" and counter == 1:
@@ -69,11 +73,16 @@ def generate_Code():
         elif line != "(O_O¬)\n" and counter == 2:
             line = line.strip('\n')
             line = re.split('[\s]+', line)
+            ERs.append(line[0])
         elif line != "(O_O¬)\n" and counter == 3:
             file_output.write(line)
         else:
             counter += 1
-    file_output.write(analizer_Code())
+    
+    AFD, startState, nodesAutomata = Automata.makeAutomata(ERs)
+    print(AFD.keys())
+    print(nodesAutomata)
+    analizer_Code(file_output, AFD, startState, nodesAutomata)
 
     file_input.close()
     file_output.close()

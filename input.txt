@@ -2,14 +2,11 @@
 import sys
 import math
 (O_O¬)
-a*          tlonId name1(print('subjetc'))
-a|b        tlonVerb     name2(print(verb))
-c|d     tlonId                  name3(print('id'))
-d+ tlonId           name4(print('id'))
+(a|b|c)* print('letra')
 (O_O¬)
-def test:
+def test():
     print("test is ok")
     pass
 
-def secondTest:
+def secondTest():
     print("Its alrigth dude")

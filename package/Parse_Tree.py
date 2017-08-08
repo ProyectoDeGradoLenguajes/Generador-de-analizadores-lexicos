@@ -164,12 +164,9 @@ def makeTree(ER):
     return tree, alphabet
 
 
-def parseTree():
-    filePath = os.path.realpath('../test/simpleTest.txt')
-    fileER = open(filePath, 'r')
-    for ER in fileER:
-        ER = "(" + ER + ")"
-        ER = list(map(str, ER))
-        final_tree, alphabet = makeTree(ER)
-        drawTree(final_tree, "final")
-        return final_tree, alphabet
+def parseTree(ER):
+    ER = "(" + ER + ")"
+    ER = list(map(str, ER))
+    final_tree, alphabet = makeTree(ER)
+    drawTree(final_tree, "final")
+    return final_tree, alphabet

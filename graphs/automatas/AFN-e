@@ -1,50 +1,26 @@
 digraph {
 	graph [rankdir=LR]
 	start [color=white fontcolor=white shape=point]
-		start -> q31
-	q21 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q21 -> q31 [label=lambda]
-	q10
-	q10 [shape=circle]
-	q8
-	q8 [shape=circle]
-		q10 -> q8 [label=lambda]
-	q7
-	q7 [shape=circle]
-		q10 -> q7 [label=lambda]
-	q18 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q18 -> q31 [label=lambda]
-	q14
-	q14 [shape=circle]
-	q15 [color=black fontcolor=black shape=doublecircle]
-		q14 -> q15 [label=five]
-	q7
-	q7 [shape=circle]
-	q4
-	q4 [shape=circle]
-		q7 -> q4 [label=lambda]
+		start -> q7
+	q2
+	q2 [shape=circle]
+	q3 [color=black fontcolor=black shape=doublecircle]
+		q2 -> q3 [label=b]
+	q7 [color=black fontcolor=black shape=doublecircle]
 	q5
 	q5 [shape=circle]
 		q7 -> q5 [label=lambda]
-	q6 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q6 -> q31 [label=lambda]
-	q3 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q3 -> q31 [label=lambda]
-	q9 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q9 -> q31 [label=lambda]
+	q4
+	q4 [shape=circle]
+		q7 -> q4 [label=lambda]
 	q0
 	q0 [shape=circle]
 	q1 [color=black fontcolor=black shape=doublecircle]
-		q0 -> q1 [label=zero]
-	q8
-	q8 [shape=circle]
-	q9 [color=black fontcolor=black shape=doublecircle]
-		q8 -> q9 [label=three]
+		q0 -> q1 [label=a]
+	q5
+	q5 [shape=circle]
+	q6 [color=black fontcolor=black shape=doublecircle]
+		q5 -> q6 [label=c]
 	q4
 	q4 [shape=circle]
 	q2
@@ -53,109 +29,13 @@ digraph {
 	q0
 	q0 [shape=circle]
 		q4 -> q0 [label=lambda]
-	q19
-	q19 [shape=circle]
-	q16
-	q16 [shape=circle]
-		q19 -> q16 [label=lambda]
-	q17
-	q17 [shape=circle]
-		q19 -> q17 [label=lambda]
-	q24 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q24 -> q31 [label=lambda]
-	q2
-	q2 [shape=circle]
 	q3 [color=black fontcolor=black shape=doublecircle]
-		q2 -> q3 [label=one]
-	q11
-	q11 [shape=circle]
-	q12 [color=black fontcolor=black shape=doublecircle]
-		q11 -> q12 [label=four]
-	q13
-	q13 [shape=circle]
-	q11
-	q11 [shape=circle]
-		q13 -> q11 [label=lambda]
-	q10
-	q10 [shape=circle]
-		q13 -> q10 [label=lambda]
-	q15 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q15 -> q31 [label=lambda]
-	q12 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q12 -> q31 [label=lambda]
-	q25
-	q25 [shape=circle]
-	q23
-	q23 [shape=circle]
-		q25 -> q23 [label=lambda]
-	q22
-	q22 [shape=circle]
-		q25 -> q22 [label=lambda]
-	q27 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q27 -> q31 [label=lambda]
-	q1 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q1 -> q31 [label=lambda]
-	q29
-	q29 [shape=circle]
-	q30 [color=black fontcolor=black shape=doublecircle]
-		q29 -> q30 [label=zero]
-	q20
-	q20 [shape=circle]
-	q21 [color=black fontcolor=black shape=doublecircle]
-		q20 -> q21 [label=seven]
-	q30 [color=black fontcolor=black shape=doublecircle]
-	q31 [color=black fontcolor=black shape=doublecircle]
-		q30 -> q31 [label=lambda]
-	q23
-	q23 [shape=circle]
-	q24 [color=black fontcolor=black shape=doublecircle]
-		q23 -> q24 [label=eight]
-	q26
-	q26 [shape=circle]
-	q27 [color=black fontcolor=black shape=doublecircle]
-		q26 -> q27 [label=nine]
-	q5
-	q5 [shape=circle]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q3 -> q7 [label=lambda]
 	q6 [color=black fontcolor=black shape=doublecircle]
-		q5 -> q6 [label=two]
-	q16
-	q16 [shape=circle]
-	q13
-	q13 [shape=circle]
-		q16 -> q13 [label=lambda]
-	q14
-	q14 [shape=circle]
-		q16 -> q14 [label=lambda]
-	q17
-	q17 [shape=circle]
-	q18 [color=black fontcolor=black shape=doublecircle]
-		q17 -> q18 [label=six]
-	q28
-	q28 [shape=circle]
-	q26
-	q26 [shape=circle]
-		q28 -> q26 [label=lambda]
-	q25
-	q25 [shape=circle]
-		q28 -> q25 [label=lambda]
-	q22
-	q22 [shape=circle]
-	q20
-	q20 [shape=circle]
-		q22 -> q20 [label=lambda]
-	q19
-	q19 [shape=circle]
-		q22 -> q19 [label=lambda]
-	q31 [color=black fontcolor=black shape=doublecircle]
-	q29
-	q29 [shape=circle]
-		q31 -> q29 [label=lambda]
-	q28
-	q28 [shape=circle]
-		q31 -> q28 [label=lambda]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q6 -> q7 [label=lambda]
+	q1 [color=black fontcolor=black shape=doublecircle]
+	q7 [color=black fontcolor=black shape=doublecircle]
+		q1 -> q7 [label=lambda]
 }

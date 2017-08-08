@@ -2,13 +2,6 @@ import sys
 import graphviz as graph
 import Parse_Tree
 
-
-class State(object):
-    def __init__(self, aceptation, name):
-        self.aceptation = aceptation
-        self.name = name
-
-
 def make_link_AFNe(G, node1, node2, token):
     if node1 not in G:
         G[node1] = {}
@@ -34,8 +27,7 @@ def make_link_tree(G, node1, node2, token):
 
 
 def make_state(nodesAutomata, aceptation, name):
-    state = State(aceptation, name)
-    nodesAutomata[name] = state
+    nodesAutomata[name] = aceptation
     return nodesAutomata
 
 
@@ -46,7 +38,7 @@ def drawAFN(G, startState, nodesAutomata, nombre_archivo):
                                   "color": "white", "fontcolor": "white"})
     g2.edge("start", "q" + str(startState))
     for node1 in G:
-        if nodesAutomata[node1].aceptation == True:
+        if nodesAutomata[node1] == True:
             g2.node(node1, _attributes={
                     "shape": "doublecircle", "color": "black", "fontcolor": "black"})
         else:
@@ -54,7 +46,7 @@ def drawAFN(G, startState, nodesAutomata, nombre_archivo):
             g2.node(node1, _attributes={"shape": "circle"})
 
         for node2 in G[node1]:
-            if nodesAutomata[node2].aceptation == True:
+            if nodesAutomata[node2] == True:
                 g2.node(node2, _attributes={
                         "shape": "doublecircle", "color": "black", "fontcolor": "black"})
             else:
@@ -73,7 +65,7 @@ def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
     g2.edge("start", "q" + str(startState))
 
     for node1 in G:
-        if nodesAutomata[node1].aceptation == True:
+        if nodesAutomata[node1] == True:
             g2.node(node1, _attributes={
                     "shape": "doublecircle", "color": "black", "fontcolor": "black"})
         else:
@@ -81,7 +73,7 @@ def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
             g2.node(node1, _attributes={"shape": "circle"})
 
         for node2 in G[node1]:
-            if nodesAutomata[node2].aceptation == True:
+            if nodesAutomata[node2] == True:
                 g2.node(node2, _attributes={
                         "shape": "doublecircle", "color": "black", "fontcolor": "black"})
             else:
@@ -155,7 +147,7 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet):
 
     for newState in newStates:
         for oldState in newStates[newState]:
-            if nodesAutomata[oldState].aceptation:
+            if nodesAutomata[oldState]:
                 make_state(nodesAutomata, True, newState)
             else:
                 make_state(nodesAutomata, False, newState)
@@ -180,7 +172,7 @@ def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
                 nodelist.append(neighbor)
             if AFN_e[u][neighbor] != "lambda":
                 word = word + AFN_e[u][neighbor]
-            if nodesAutomata[neighbor].aceptation:
+            if nodesAutomata[neighbor]:
                 if word == symbol:
                     make_link_AFN(AFN, startNode, neighbor, symbol)
             if color[neighbor] == "black":
@@ -253,7 +245,7 @@ def transition_concatenation(AFN_e, Tree, node, nodesAutomata, state, startState
     endNodes2 = subAutomata2['end']
 
     for endNode in endNodes1:
-        nodesAutomata[endNode].aceptation = False
+        nodesAutomata[endNode] = False
         AFN_e = make_link_AFNe(AFN_e, endNode, startNode2, "lambda")
 
     startNode = startNode1
@@ -273,7 +265,7 @@ def transition_kleen(AFN_e, Tree, node, nodesAutomata, state, startState):
     startNode = subAutomata['start']
     endNodes = subAutomata['end']
 
-    nodesAutomata[startNode] = State(True, startNode)
+    nodesAutomata[startNode] = True
 
     for endNode in endNodes:
         AFN_e = make_link_AFNe(AFN_e, endNode, startNode, "lambda")
@@ -345,29 +337,30 @@ def select_transition(AFN_e, Tree, node, nodesAutomata, state, startState):
     return AFN_e, Tree, nodesAutomata, state, startState
 
 
-def makeAutomata():
-    Tree, alphabet = Parse_Tree.parseTree()
-    AFN_e = {}
-    nodesAutomata = {}
+def makeAutomata(ERs):
+    
+    for ER in ERs:
+        Tree, alphabet = Parse_Tree.parseTree(ER)
+        AFN_e = {}
+        nodesAutomata = {}
 
-    state = 0
-    startState = 0
+        state = 0
+        startState = 0
 
-    i = 1
-    while i < len(Tree) + 1:
-        subtree = Tree[i]
-        if len(subtree) == 1:
-            AFN_e, Tree, nodesAutomata, state = transition(
-                AFN_e, Tree, i, nodesAutomata, state)
-        else:
-            AFN_e, Tree, nodesAutomata, state, startState = select_transition(AFN_e, Tree, i, nodesAutomata, state,
-                                                                              startState)
-        i += 1
-    drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e")
-    AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
-    AFD = make_AFD(AFN, startState, nodesAutomata, alphabet)
+        i = 1
+        while i < len(Tree) + 1:
+            subtree = Tree[i]
+            if len(subtree) == 1:
+                AFN_e, Tree, nodesAutomata, state = transition(
+                    AFN_e, Tree, i, nodesAutomata, state)
+            else:
+                AFN_e, Tree, nodesAutomata, state, startState = select_transition(AFN_e, Tree, i, nodesAutomata, state,
+                                                                                startState)
+            i += 1
+        drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e")
+        AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
+        AFD = make_AFD(AFN, startState, nodesAutomata, alphabet)
 
-makeAutomata()
-    ##return AFD, startState, nodesAutomata
+        return AFD, startState, nodesAutomata
 
 
