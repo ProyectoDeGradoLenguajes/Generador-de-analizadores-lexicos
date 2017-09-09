@@ -17,7 +17,7 @@ def drawTree(G, etiqueta):
             g2.node(str(node1))
             g2.node(str(node2))
             g2.edge(str(node1), str(node2))
-    filename = g2.render(filename='../graphs/parse_tree/g' + etiqueta)
+    filename = g2.render(filename='graphs/parse_tree/g' + etiqueta)
 
 
 def op_unary(tree, node, node_aux, character):
