@@ -2,11 +2,7 @@
 import sys
 import math
 (O_O¬)
-(a|b|c)* print('letra')
+(a|b|c)* print('is_a_number')
 (O_O¬)
-def test():
-    print("test is ok")
-    pass
-
-def secondTest():
-    print("Its alrigth dude")
+def testFunction():
+    print("hello YAFP!")

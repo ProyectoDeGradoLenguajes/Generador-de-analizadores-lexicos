@@ -1,6 +1,6 @@
 import sys
 import graphviz as graph
-import Parse_Tree
+import package.Parse_Tree
 
 def make_link_AFNe(G, node1, node2, token):
     if node1 not in G:
@@ -54,7 +54,7 @@ def drawAFN(G, startState, nodesAutomata, nombre_archivo):
                 g2.node(node2, _attributes={"shape": "circle"})
             for _label_ in G[node1][node2]:
                 g2.edge(str(node1), str(node2), label=_label_)
-    filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
+    filename = g2.render(filename='graphs/automatas/' + nombre_archivo)
 
 
 def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
@@ -80,7 +80,7 @@ def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
                 g2.node(str(node2))
                 g2.node(node2, _attributes={"shape": "circle"})
             g2.edge(str(node1), str(node2), label=G[node1][node2])
-    filename = g2.render(filename='../graphs/automatas/' + nombre_archivo)
+    filename = g2.render(filename='graphs/automatas/' + nombre_archivo)
 
 
 def delete_limboState(AFN, startNode, nodesAutomata):
@@ -340,7 +340,7 @@ def select_transition(AFN_e, Tree, node, nodesAutomata, state, startState):
 def makeAutomata(ERs):
     
     for ER in ERs:
-        Tree, alphabet = Parse_Tree.parseTree(ER)
+        Tree, alphabet = package.Parse_Tree.parseTree(ER)
         AFN_e = {}
         nodesAutomata = {}
 
