@@ -2,7 +2,7 @@
 import sys
 import math
 (O_O¬)
-(a|b|c|d|e|f|g|h|i|j)+ print('Palabra')
+[a-z]+ print('Palabra')
 (O_O¬)
 def testFunction():
     print("hello YAFP!")

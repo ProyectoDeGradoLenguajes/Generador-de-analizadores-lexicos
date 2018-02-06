@@ -89,7 +89,7 @@ def op_concatenation(tree, node, node1, node2, pair, character):
 
 
 def makeSubTree(tree, sub_ER, node):
-    unary_operations = {'*': op_unary, '+': op_unary}
+    unary_operations = {'*': op_unary, '+': op_unary, "$": 0, "/": 0, "?": 0}
     binary_operations = {'|': 1, ')': 1}
     pair = 0
     position_or = []
@@ -133,7 +133,8 @@ def makeSubTree(tree, sub_ER, node):
 def makeTree(ER):
     numbers = {"1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight",
                "9": "nine", "0": "zero"}
-    operations = {"*": 0, "|": 0, "+": 0, "(": 0, ")": 0}
+    operations = {"*": 0, "|": 0, "+": 0,
+                  "(": 0, ")": 0, "/": 0, "?": 0, ".": 0}
 
     tree = {}
     alphabet = []
@@ -164,9 +165,56 @@ def makeTree(ER):
     return tree, alphabet
 
 
+def metaCharacters(ER):
+    search = True
+    while search:
+        if ER.find("[") > 0 and ER.find("]") > 0:
+            subER = ER[ER.find("[") + 1: ER.find("]")]
+            newSubER = groupCharacters(subER)
+            ER = ER.replace("[" + subER + "]", newSubER)
+        else:
+            search = False
+    return ER
+
+
+def groupCharacters(subER):
+    newSubER = ''
+    for i in range(0, len(subER)):
+        character = subER[i]
+        if character == '-':
+            i -= 1
+            character1 = subER[i]
+            asciiCharacter1 = ord(character1) + 1
+            i += 2
+            character2 = subER[i]
+            asciiCharacter2 = ord(character2)
+            for j in range(asciiCharacter1, asciiCharacter2):
+                newSubER = newSubER + chr(j) + "|"
+        else:
+            newSubER = newSubER + character + "|"
+    finalStep = len(newSubER) - 1
+    newSubER = newSubER[:finalStep]
+    return "(" + newSubER + ")"
+
+
+def deleteMetaCharacters(ER):
+    i = 0
+    while i < len(ER):
+        character = ER[i]
+        if character == "^" or character == "$":
+            ER.pop(i)
+        i += 1
+    return ER
+
+
 def parseTree(ER):
     ER = "(" + ER + ")"
+    ER = metaCharacters(ER)
     ER = list(map(str, ER))
+    ER = deleteMetaCharacters(ER)
     final_tree, alphabet = makeTree(ER)
     drawTree(final_tree, "final")
     return final_tree, alphabet
+
+
+parseTree("a[0-9]z")
