@@ -94,9 +94,7 @@ def makeSubTree(tree, sub_ER, node):
     pair = 0
     position_or = []
 
-    sub_ER.pop(0)
-    # print(sub_ER)
-    i = 0
+    i = 1
     while i < len(sub_ER):
         character = sub_ER[i]
         prev_character = sub_ER[i - 1]
@@ -117,7 +115,7 @@ def makeSubTree(tree, sub_ER, node):
 
         elif type(character) is str:
             if character in unary_operations:
-                tree, node = op_unary(tree, node, 0, character)
+                tree, node = op_unary(tree, node, node - 1, character)
             elif character in binary_operations:
                 tree, node, position_or, pair = op_OR(
                     tree, node, position_or, pair, character)
@@ -217,4 +215,4 @@ def parseTree(ER):
     return final_tree, alphabet
 
 
-parseTree("a[0-9]z")
+parseTree("a*[0-5]?b+(c*|d|e)")

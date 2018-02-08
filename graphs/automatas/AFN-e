@@ -2,158 +2,6 @@ digraph {
 	graph [rankdir=LR]
 	start [color=white fontcolor=white shape=point]
 	start -> q76
-	q0
-	q0 [shape=circle]
-	q1 [color=black fontcolor=black shape=doublecircle]
-	q0 -> q1 [label=a]
-	q2
-	q2 [shape=circle]
-	q3 [color=black fontcolor=black shape=doublecircle]
-	q2 -> q3 [label=b]
-	q4
-	q4 [shape=circle]
-	q0
-	q0 [shape=circle]
-	q4 -> q0 [label=lambda]
-	q2
-	q2 [shape=circle]
-	q4 -> q2 [label=lambda]
-	q5
-	q5 [shape=circle]
-	q6 [color=black fontcolor=black shape=doublecircle]
-	q5 -> q6 [label=c]
-	q7
-	q7 [shape=circle]
-	q4
-	q4 [shape=circle]
-	q7 -> q4 [label=lambda]
-	q5
-	q5 [shape=circle]
-	q7 -> q5 [label=lambda]
-	q8
-	q8 [shape=circle]
-	q9 [color=black fontcolor=black shape=doublecircle]
-	q8 -> q9 [label=d]
-	q10
-	q10 [shape=circle]
-	q7
-	q7 [shape=circle]
-	q10 -> q7 [label=lambda]
-	q8
-	q8 [shape=circle]
-	q10 -> q8 [label=lambda]
-	q11
-	q11 [shape=circle]
-	q12 [color=black fontcolor=black shape=doublecircle]
-	q11 -> q12 [label=e]
-	q13
-	q13 [shape=circle]
-	q10
-	q10 [shape=circle]
-	q13 -> q10 [label=lambda]
-	q11
-	q11 [shape=circle]
-	q13 -> q11 [label=lambda]
-	q14
-	q14 [shape=circle]
-	q15 [color=black fontcolor=black shape=doublecircle]
-	q14 -> q15 [label=f]
-	q16
-	q16 [shape=circle]
-	q13
-	q13 [shape=circle]
-	q16 -> q13 [label=lambda]
-	q14
-	q14 [shape=circle]
-	q16 -> q14 [label=lambda]
-	q17
-	q17 [shape=circle]
-	q18 [color=black fontcolor=black shape=doublecircle]
-	q17 -> q18 [label=g]
-	q19
-	q19 [shape=circle]
-	q16
-	q16 [shape=circle]
-	q19 -> q16 [label=lambda]
-	q17
-	q17 [shape=circle]
-	q19 -> q17 [label=lambda]
-	q20
-	q20 [shape=circle]
-	q21 [color=black fontcolor=black shape=doublecircle]
-	q20 -> q21 [label=h]
-	q22
-	q22 [shape=circle]
-	q19
-	q19 [shape=circle]
-	q22 -> q19 [label=lambda]
-	q20
-	q20 [shape=circle]
-	q22 -> q20 [label=lambda]
-	q23
-	q23 [shape=circle]
-	q24 [color=black fontcolor=black shape=doublecircle]
-	q23 -> q24 [label=i]
-	q25
-	q25 [shape=circle]
-	q22
-	q22 [shape=circle]
-	q25 -> q22 [label=lambda]
-	q23
-	q23 [shape=circle]
-	q25 -> q23 [label=lambda]
-	q26
-	q26 [shape=circle]
-	q27 [color=black fontcolor=black shape=doublecircle]
-	q26 -> q27 [label=j]
-	q28
-	q28 [shape=circle]
-	q25
-	q25 [shape=circle]
-	q28 -> q25 [label=lambda]
-	q26
-	q26 [shape=circle]
-	q28 -> q26 [label=lambda]
-	q29
-	q29 [shape=circle]
-	q30 [color=black fontcolor=black shape=doublecircle]
-	q29 -> q30 [label=k]
-	q31
-	q31 [shape=circle]
-	q28
-	q28 [shape=circle]
-	q31 -> q28 [label=lambda]
-	q29
-	q29 [shape=circle]
-	q31 -> q29 [label=lambda]
-	q32
-	q32 [shape=circle]
-	q33 [color=black fontcolor=black shape=doublecircle]
-	q32 -> q33 [label=l]
-	q34
-	q34 [shape=circle]
-	q31
-	q31 [shape=circle]
-	q34 -> q31 [label=lambda]
-	q32
-	q32 [shape=circle]
-	q34 -> q32 [label=lambda]
-	q35
-	q35 [shape=circle]
-	q36 [color=black fontcolor=black shape=doublecircle]
-	q35 -> q36 [label=m]
-	q37
-	q37 [shape=circle]
-	q34
-	q34 [shape=circle]
-	q37 -> q34 [label=lambda]
-	q35
-	q35 [shape=circle]
-	q37 -> q35 [label=lambda]
-	q38
-	q38 [shape=circle]
-	q39 [color=black fontcolor=black shape=doublecircle]
-	q38 -> q39 [label=n]
 	q40
 	q40 [shape=circle]
 	q37
@@ -162,22 +10,106 @@ digraph {
 	q38
 	q38 [shape=circle]
 	q40 -> q38 [label=lambda]
-	q41
-	q41 [shape=circle]
-	q42 [color=black fontcolor=black shape=doublecircle]
-	q41 -> q42 [label=o]
-	q43
-	q43 [shape=circle]
-	q40
-	q40 [shape=circle]
-	q43 -> q40 [label=lambda]
-	q41
-	q41 [shape=circle]
-	q43 -> q41 [label=lambda]
-	q44
-	q44 [shape=circle]
-	q45 [color=black fontcolor=black shape=doublecircle]
-	q44 -> q45 [label=p]
+	q16
+	q16 [shape=circle]
+	q13
+	q13 [shape=circle]
+	q16 -> q13 [label=lambda]
+	q14
+	q14 [shape=circle]
+	q16 -> q14 [label=lambda]
+	q15 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q15 -> q76 [label=lambda]
+	q30 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q30 -> q76 [label=lambda]
+	q68
+	q68 [shape=circle]
+	q69 [color=black fontcolor=black shape=doublecircle]
+	q68 -> q69 [label=x]
+	q59
+	q59 [shape=circle]
+	q60 [color=black fontcolor=black shape=doublecircle]
+	q59 -> q60 [label=u]
+	q62
+	q62 [shape=circle]
+	q63 [color=black fontcolor=black shape=doublecircle]
+	q62 -> q63 [label=v]
+	q34
+	q34 [shape=circle]
+	q32
+	q32 [shape=circle]
+	q34 -> q32 [label=lambda]
+	q31
+	q31 [shape=circle]
+	q34 -> q31 [label=lambda]
+	q69 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q69 -> q76 [label=lambda]
+	q58
+	q58 [shape=circle]
+	q56
+	q56 [shape=circle]
+	q58 -> q56 [label=lambda]
+	q55
+	q55 [shape=circle]
+	q58 -> q55 [label=lambda]
+	q48 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q48 -> q76 [label=lambda]
+	q72 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q72 -> q76 [label=lambda]
+	q1 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q1 -> q76 [label=lambda]
+	q76
+	q76 [shape=circle]
+	q73
+	q73 [shape=circle]
+	q76 -> q73 [label=lambda]
+	q74
+	q74 [shape=circle]
+	q76 -> q74 [label=lambda]
+	q38
+	q38 [shape=circle]
+	q39 [color=black fontcolor=black shape=doublecircle]
+	q38 -> q39 [label=n]
+	q39 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q39 -> q76 [label=lambda]
+	q29
+	q29 [shape=circle]
+	q30 [color=black fontcolor=black shape=doublecircle]
+	q29 -> q30 [label=k]
+	q56
+	q56 [shape=circle]
+	q57 [color=black fontcolor=black shape=doublecircle]
+	q56 -> q57 [label=t]
+	q25
+	q25 [shape=circle]
+	q23
+	q23 [shape=circle]
+	q25 -> q23 [label=lambda]
+	q22
+	q22 [shape=circle]
+	q25 -> q22 [label=lambda]
+	q20
+	q20 [shape=circle]
+	q21 [color=black fontcolor=black shape=doublecircle]
+	q20 -> q21 [label=h]
+	q35
+	q35 [shape=circle]
+	q36 [color=black fontcolor=black shape=doublecircle]
+	q35 -> q36 [label=m]
 	q46
 	q46 [shape=circle]
 	q43
@@ -186,10 +118,74 @@ digraph {
 	q44
 	q44 [shape=circle]
 	q46 -> q44 [label=lambda]
-	q47
-	q47 [shape=circle]
-	q48 [color=black fontcolor=black shape=doublecircle]
-	q47 -> q48 [label=q]
+	q26
+	q26 [shape=circle]
+	q27 [color=black fontcolor=black shape=doublecircle]
+	q26 -> q27 [label=j]
+	q11
+	q11 [shape=circle]
+	q12 [color=black fontcolor=black shape=doublecircle]
+	q11 -> q12 [label=e]
+	q66 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q66 -> q76 [label=lambda]
+	q55
+	q55 [shape=circle]
+	q53
+	q53 [shape=circle]
+	q55 -> q53 [label=lambda]
+	q52
+	q52 [shape=circle]
+	q55 -> q52 [label=lambda]
+	q61
+	q61 [shape=circle]
+	q58
+	q58 [shape=circle]
+	q61 -> q58 [label=lambda]
+	q59
+	q59 [shape=circle]
+	q61 -> q59 [label=lambda]
+	q28
+	q28 [shape=circle]
+	q26
+	q26 [shape=circle]
+	q28 -> q26 [label=lambda]
+	q25
+	q25 [shape=circle]
+	q28 -> q25 [label=lambda]
+	q9 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q9 -> q76 [label=lambda]
+	q57 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q57 -> q76 [label=lambda]
+	q22
+	q22 [shape=circle]
+	q19
+	q19 [shape=circle]
+	q22 -> q19 [label=lambda]
+	q20
+	q20 [shape=circle]
+	q22 -> q20 [label=lambda]
+	q75 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q75 -> q76 [label=lambda]
+	q8
+	q8 [shape=circle]
+	q9 [color=black fontcolor=black shape=doublecircle]
+	q8 -> q9 [label=d]
+	q43
+	q43 [shape=circle]
+	q40
+	q40 [shape=circle]
+	q43 -> q40 [label=lambda]
+	q41
+	q41 [shape=circle]
+	q43 -> q41 [label=lambda]
 	q49
 	q49 [shape=circle]
 	q46
@@ -202,6 +198,18 @@ digraph {
 	q50 [shape=circle]
 	q51 [color=black fontcolor=black shape=doublecircle]
 	q50 -> q51 [label=r]
+	q53
+	q53 [shape=circle]
+	q54 [color=black fontcolor=black shape=doublecircle]
+	q53 -> q54 [label=s]
+	q23
+	q23 [shape=circle]
+	q24 [color=black fontcolor=black shape=doublecircle]
+	q23 -> q24 [label=i]
+	q6 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q6 -> q76 [label=lambda]
 	q52
 	q52 [shape=circle]
 	q49
@@ -210,70 +218,74 @@ digraph {
 	q50
 	q50 [shape=circle]
 	q52 -> q50 [label=lambda]
-	q53
-	q53 [shape=circle]
-	q54 [color=black fontcolor=black shape=doublecircle]
-	q53 -> q54 [label=s]
-	q55
-	q55 [shape=circle]
-	q52
-	q52 [shape=circle]
-	q55 -> q52 [label=lambda]
-	q53
-	q53 [shape=circle]
-	q55 -> q53 [label=lambda]
-	q56
-	q56 [shape=circle]
-	q57 [color=black fontcolor=black shape=doublecircle]
-	q56 -> q57 [label=t]
-	q58
-	q58 [shape=circle]
-	q55
-	q55 [shape=circle]
-	q58 -> q55 [label=lambda]
-	q56
-	q56 [shape=circle]
-	q58 -> q56 [label=lambda]
-	q59
-	q59 [shape=circle]
-	q60 [color=black fontcolor=black shape=doublecircle]
-	q59 -> q60 [label=u]
-	q61
-	q61 [shape=circle]
-	q58
-	q58 [shape=circle]
-	q61 -> q58 [label=lambda]
-	q59
-	q59 [shape=circle]
-	q61 -> q59 [label=lambda]
-	q62
-	q62 [shape=circle]
+	q44
+	q44 [shape=circle]
+	q45 [color=black fontcolor=black shape=doublecircle]
+	q44 -> q45 [label=p]
+	q7
+	q7 [shape=circle]
+	q4
+	q4 [shape=circle]
+	q7 -> q4 [label=lambda]
+	q5
+	q5 [shape=circle]
+	q7 -> q5 [label=lambda]
+	q41
+	q41 [shape=circle]
+	q42 [color=black fontcolor=black shape=doublecircle]
+	q41 -> q42 [label=o]
+	q2
+	q2 [shape=circle]
+	q3 [color=black fontcolor=black shape=doublecircle]
+	q2 -> q3 [label=b]
+	q18 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q18 -> q76 [label=lambda]
+	q10
+	q10 [shape=circle]
+	q8
+	q8 [shape=circle]
+	q10 -> q8 [label=lambda]
+	q7
+	q7 [shape=circle]
+	q10 -> q7 [label=lambda]
+	q32
+	q32 [shape=circle]
+	q33 [color=black fontcolor=black shape=doublecircle]
+	q32 -> q33 [label=l]
 	q63 [color=black fontcolor=black shape=doublecircle]
-	q62 -> q63 [label=v]
-	q64
-	q64 [shape=circle]
-	q61
-	q61 [shape=circle]
-	q64 -> q61 [label=lambda]
-	q62
-	q62 [shape=circle]
-	q64 -> q62 [label=lambda]
-	q65
-	q65 [shape=circle]
-	q66 [color=black fontcolor=black shape=doublecircle]
-	q65 -> q66 [label=w]
+	q76
+	q76 [shape=circle]
+	q63 -> q76 [label=lambda]
 	q67
 	q67 [shape=circle]
+	q65
+	q65 [shape=circle]
+	q67 -> q65 [label=lambda]
 	q64
 	q64 [shape=circle]
 	q67 -> q64 [label=lambda]
 	q65
 	q65 [shape=circle]
-	q67 -> q65 [label=lambda]
-	q68
-	q68 [shape=circle]
-	q69 [color=black fontcolor=black shape=doublecircle]
-	q68 -> q69 [label=x]
+	q66 [color=black fontcolor=black shape=doublecircle]
+	q65 -> q66 [label=w]
+	q45 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q45 -> q76 [label=lambda]
+	q54 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q54 -> q76 [label=lambda]
+	q64
+	q64 [shape=circle]
+	q62
+	q62 [shape=circle]
+	q64 -> q62 [label=lambda]
+	q61
+	q61 [shape=circle]
+	q64 -> q61 [label=lambda]
 	q70
 	q70 [shape=circle]
 	q67
@@ -282,10 +294,14 @@ digraph {
 	q68
 	q68 [shape=circle]
 	q70 -> q68 [label=lambda]
-	q71
-	q71 [shape=circle]
-	q72 [color=black fontcolor=black shape=doublecircle]
-	q71 -> q72 [label=y]
+	q5
+	q5 [shape=circle]
+	q6 [color=black fontcolor=black shape=doublecircle]
+	q5 -> q6 [label=c]
+	q3 [color=black fontcolor=black shape=doublecircle]
+	q76
+	q76 [shape=circle]
+	q3 -> q76 [label=lambda]
 	q73
 	q73 [shape=circle]
 	q70
@@ -294,120 +310,104 @@ digraph {
 	q71
 	q71 [shape=circle]
 	q73 -> q71 [label=lambda]
-	q74
-	q74 [shape=circle]
-	q75 [color=black fontcolor=black shape=doublecircle]
-	q74 -> q75 [label=z]
-	q76
-	q76 [shape=circle]
-	q73
-	q73 [shape=circle]
-	q76 -> q73 [label=lambda]
-	q74
-	q74 [shape=circle]
-	q76 -> q74 [label=lambda]
-	q1 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q1 -> q76 [label=lambda]
-	q3 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q3 -> q76 [label=lambda]
-	q6 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q6 -> q76 [label=lambda]
-	q9 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q9 -> q76 [label=lambda]
-	q12 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q12 -> q76 [label=lambda]
-	q15 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q15 -> q76 [label=lambda]
-	q18 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q18 -> q76 [label=lambda]
 	q21 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
 	q21 -> q76 [label=lambda]
-	q24 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q24 -> q76 [label=lambda]
-	q27 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q27 -> q76 [label=lambda]
-	q30 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q30 -> q76 [label=lambda]
+	q19
+	q19 [shape=circle]
+	q16
+	q16 [shape=circle]
+	q19 -> q16 [label=lambda]
+	q17
+	q17 [shape=circle]
+	q19 -> q17 [label=lambda]
+	q47
+	q47 [shape=circle]
+	q48 [color=black fontcolor=black shape=doublecircle]
+	q47 -> q48 [label=q]
 	q33 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
 	q33 -> q76 [label=lambda]
+	q0
+	q0 [shape=circle]
+	q1 [color=black fontcolor=black shape=doublecircle]
+	q0 -> q1 [label=a]
 	q36 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
 	q36 -> q76 [label=lambda]
-	q39 [color=black fontcolor=black shape=doublecircle]
+	q74
+	q74 [shape=circle]
+	q75 [color=black fontcolor=black shape=doublecircle]
+	q74 -> q75 [label=z]
+	q14
+	q14 [shape=circle]
+	q15 [color=black fontcolor=black shape=doublecircle]
+	q14 -> q15 [label=f]
+	q27 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
-	q39 -> q76 [label=lambda]
-	q42 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q42 -> q76 [label=lambda]
-	q45 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q45 -> q76 [label=lambda]
-	q48 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q48 -> q76 [label=lambda]
-	q51 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q51 -> q76 [label=lambda]
-	q54 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q54 -> q76 [label=lambda]
-	q57 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q57 -> q76 [label=lambda]
+	q27 -> q76 [label=lambda]
+	q31
+	q31 [shape=circle]
+	q28
+	q28 [shape=circle]
+	q31 -> q28 [label=lambda]
+	q29
+	q29 [shape=circle]
+	q31 -> q29 [label=lambda]
+	q13
+	q13 [shape=circle]
+	q10
+	q10 [shape=circle]
+	q13 -> q10 [label=lambda]
+	q11
+	q11 [shape=circle]
+	q13 -> q11 [label=lambda]
+	q4
+	q4 [shape=circle]
+	q0
+	q0 [shape=circle]
+	q4 -> q0 [label=lambda]
+	q2
+	q2 [shape=circle]
+	q4 -> q2 [label=lambda]
+	q71
+	q71 [shape=circle]
+	q72 [color=black fontcolor=black shape=doublecircle]
+	q71 -> q72 [label=y]
 	q60 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
 	q60 -> q76 [label=lambda]
-	q63 [color=black fontcolor=black shape=doublecircle]
+	q51 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
-	q63 -> q76 [label=lambda]
-	q66 [color=black fontcolor=black shape=doublecircle]
+	q51 -> q76 [label=lambda]
+	q37
+	q37 [shape=circle]
+	q34
+	q34 [shape=circle]
+	q37 -> q34 [label=lambda]
+	q35
+	q35 [shape=circle]
+	q37 -> q35 [label=lambda]
+	q24 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
-	q66 -> q76 [label=lambda]
-	q69 [color=black fontcolor=black shape=doublecircle]
+	q24 -> q76 [label=lambda]
+	q17
+	q17 [shape=circle]
+	q18 [color=black fontcolor=black shape=doublecircle]
+	q17 -> q18 [label=g]
+	q12 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
-	q69 -> q76 [label=lambda]
-	q72 [color=black fontcolor=black shape=doublecircle]
+	q12 -> q76 [label=lambda]
+	q42 [color=black fontcolor=black shape=doublecircle]
 	q76
 	q76 [shape=circle]
-	q72 -> q76 [label=lambda]
-	q75 [color=black fontcolor=black shape=doublecircle]
-	q76
-	q76 [shape=circle]
-	q75 -> q76 [label=lambda]
+	q42 -> q76 [label=lambda]
 }
