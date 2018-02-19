@@ -1,6 +1,5 @@
-import sys
 import graphviz as graph
-import os
+import sys
 
 
 def make_link(G, node1, node2):
@@ -20,110 +19,65 @@ def drawTree(G, etiqueta):
     filename = g2.render(filename='graphs/parse_tree/g' + etiqueta)
 
 
-def op_unary(tree, node, node_aux, character):
-    if len(tree[node_aux]) > 1:
-        if "|" in tree[node_aux] and node_aux in tree[node - 1]:
-            del tree[node - 1]
-            tree = make_link(tree, node - 1, character)
-            tree = make_link(tree, node - 1, node_aux)
-
-            tree = make_link(tree, node, node - 1)
-            tree = make_link(tree, node, node - 2)
-            node += 1
-
-        elif "|" in tree[node_aux]:
-            make_link(tree, node, node_aux)
-            make_link(tree, node, character)
-            node += 1
-
-        else:
-            node_aux = node - 1
-            tree = make_link(tree, node_aux - 1, character)
+def op_unary(tree, character, node, pair):
+    prev_node = node - 1
+    if len(tree[prev_node]) >= 2:
+        make_link(tree, prev_node - 1, character)
     else:
-        tree = make_link(tree, node_aux, character)
+        make_link(tree, prev_node, character)
+    return tree, node, pair
 
-    return tree, node
 
-
-def op_OR(tree, node, position_or, pair, character):
-    if (len(position_or) == 0):
-        position_or.append(node - 1)
-        pair = 0
+def op_OR(tree, node, character, position_or, pair):
+    pair = []
+    prev_node = node - 1
+    if len(position_or) == 0 and character == '|':
+        position_or.append(prev_node)
     else:
-        node1 = position_or.pop()
-        node2 = node - 1
-        tree = make_link(tree, node, node1)
-        tree = make_link(tree, node, node2)
-        tree = make_link(tree, node, '|')
-
+        make_link(tree, node, '|')
+        make_link(tree, node, position_or.pop())
+        make_link(tree, node, prev_node)
         if character == '|':
-            pair = 0
             position_or.append(node)
         else:
-            pair = 1
-
+            pair.append(node)
         node += 1
+
     return tree, node, position_or, pair
 
 
-def op_concatenation(tree, node, node1, node2, pair, character):
-    flag = False
-    if (character != ")"):
-        if (type(character) is not int):
-            flag = True
-            tree = make_link(tree, node, character)
-            pair += 1
-            node += 1
+def op_concatenation(tree, character, node, pair):
+    tree = make_link(tree, node, character)
+    pair.append(node)
 
-        if flag == True:
-            node1 = node1 + 1
-            node2 = node2 + 1
-
-        if pair == 2:
-            tree = make_link(tree, node, node1)
-            tree = make_link(tree, node, node2)
-            pair = 1
-            node += 1
-
+    if len(pair) == 2:
+        node += 1
+        node1 = pair.pop()
+        node2 = pair.pop()
+        tree = make_link(tree, node, node1)
+        tree = make_link(tree, node, node2)
+        pair.append(node)
+    node += 1
     return tree, node, pair
 
 
 def makeSubTree(tree, sub_ER, node):
     unary_operations = {'*': op_unary, '+': op_unary, "$": 0, "/": 0, "?": 0}
-    binary_operations = {'|': 1, ')': 1}
-    pair = 0
+    pair = []
     position_or = []
 
     i = 1
     while i < len(sub_ER):
         character = sub_ER[i]
-        prev_character = sub_ER[i - 1]
-        if type(prev_character) is int and sub_ER[i] in unary_operations:
-            tree, node = op_unary(tree, node, prev_character - 1, character)
-        elif type(character) is int:
-            pair += 1
-            if type(prev_character) is int:
-                node1 = character - 1
-                node2 = prev_character - 1
-                tree, node, pair = op_concatenation(
-                    tree, node, node1, node2, pair, character)
-            else:
-                node1 = node - 1
-                node2 = character - 1
-                tree, node, pair = op_concatenation(
-                    tree, node, node1, node2, pair, character)
-
-        elif type(character) is str:
-            if character in unary_operations:
-                tree, node = op_unary(tree, node, node - 1, character)
-            elif character in binary_operations:
-                tree, node, position_or, pair = op_OR(
-                    tree, node, position_or, pair, character)
-            else:
-                node1 = node - 1
-                node2 = node - 2
-                tree, node, pair = op_concatenation(
-                    tree, node, node1, node2, pair, character)
+        if character == '|' or (character == ')' and len(position_or) > 0):
+            tree, node, position_or, pair = op_OR(
+                tree, node, character, position_or, pair)
+        elif character in unary_operations:
+            tree, node, pair = unary_operations[character](
+                tree, character, node, pair)
+        elif character != ')':
+            tree, node, pair = op_concatenation(
+                tree, character, node, pair)
         i += 1
     return tree, node
 
@@ -149,16 +103,17 @@ def makeTree(ER):
         if ER[i] not in alphabet and character not in operations:
             alphabet.append(ER[i])
 
-        if (character == "("):
+        if character == '(':
             parenthesis_position.append(i)
 
-        if (character == ")"):
+        if character == ')':
             parenthesis = parenthesis_position.pop()
             sub_ER = ER[parenthesis:(i + 1)]
             tree, node = makeSubTree(tree, sub_ER, node)
             del ER[parenthesis:(i + 1)]
-            ER.insert(parenthesis, node)
+            ER.insert(parenthesis, node - 1)
             i = parenthesis
+            print(ER)
         i += 1
     return tree, alphabet
 
@@ -213,6 +168,3 @@ def parseTree(ER):
     final_tree, alphabet = makeTree(ER)
     drawTree(final_tree, "final")
     return final_tree, alphabet
-
-
-parseTree("a*[0-5]?b+(c*|d|e)")
