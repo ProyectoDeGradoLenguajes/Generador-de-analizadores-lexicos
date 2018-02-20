@@ -2,6 +2,7 @@ import sys
 import graphviz as graph
 import package.Parse_Tree
 
+
 def make_link_AFNe(G, node1, node2, token):
     if node1 not in G:
         G[node1] = {}
@@ -103,7 +104,7 @@ def delete_limboState(AFN, startNode, nodesAutomata):
     return AFN
 
 
-def make_AFD(AFN, startNode, nodesAutomata, alphabet):
+def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
     AFD = {}
     newStates = {}
     num_state = 0
@@ -153,7 +154,7 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet):
                 make_state(nodesAutomata, False, newState)
 
     delete_limboState(AFD, "q" + str(startNode), nodesAutomata)
-    drawAFN(AFD, startNode, nodesAutomata, "AFD")
+    drawAFN(AFD, startNode, nodesAutomata, "AFD_" + id_ER)
     return AFD
 
 
@@ -181,13 +182,13 @@ def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
     return AFN
 
 
-def make_AFN(AFN_e, startState, nodesAutomata, alphabet):
+def make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER):
     AFN = {}
     for node in nodesAutomata.keys():
         for symbol in alphabet:
             AFN = DFS_AFN(AFN_e, node, nodesAutomata, symbol, AFN)
     delete_limboState(AFN, "q" + str(startState), nodesAutomata)
-    drawAFN(AFN, startState, nodesAutomata, "AFN")
+    drawAFN(AFN, startState, nodesAutomata, "AFN_" + id_ER)
     return AFN
 
 
@@ -338,8 +339,10 @@ def select_transition(AFN_e, Tree, node, nodesAutomata, state, startState):
 
 
 def makeAutomata(ERs):
-    
-    for ER in ERs:
+
+    AFDS = {}
+    for id_ER in ERs.keys():
+        ER = ERs[id_ER]
         Tree, alphabet = package.Parse_Tree.parseTree(ER)
         AFN_e = {}
         nodesAutomata = {}
@@ -355,12 +358,12 @@ def makeAutomata(ERs):
                     AFN_e, Tree, i, nodesAutomata, state)
             else:
                 AFN_e, Tree, nodesAutomata, state, startState = select_transition(AFN_e, Tree, i, nodesAutomata, state,
-                                                                                startState)
+                                                                                  startState)
             i += 1
-        drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e")
-        AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet)
-        AFD = make_AFD(AFN, startState, nodesAutomata, alphabet)
 
-        return AFD, startState, nodesAutomata
+        drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e_" + id_ER)
+        AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER)
+        AFD = make_AFD(AFN, startState, nodesAutomata, alphabet, id_ER)
 
-
+        AFDS[id_ER] = [AFD, startState, nodesAutomata]
+    return AFDS

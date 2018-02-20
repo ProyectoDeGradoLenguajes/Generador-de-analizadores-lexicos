@@ -2,7 +2,7 @@
 import sys
 import math
 (O_O¬)
-[a-z]+ print('Palabra')
+letra:[a-j]+{print('prueba joaquin')}
 (O_O¬)
 def testFunction():
     print("hello YAFP!")

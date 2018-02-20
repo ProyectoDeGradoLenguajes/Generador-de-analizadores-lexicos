@@ -113,7 +113,6 @@ def makeTree(ER):
             del ER[parenthesis:(i + 1)]
             ER.insert(parenthesis, node - 1)
             i = parenthesis
-            print(ER)
         i += 1
     return tree, alphabet
 
@@ -168,3 +167,6 @@ def parseTree(ER):
     final_tree, alphabet = makeTree(ER)
     drawTree(final_tree, "final")
     return final_tree, alphabet
+
+
+#parseTree("(aa)*")
