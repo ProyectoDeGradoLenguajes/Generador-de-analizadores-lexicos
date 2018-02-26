@@ -180,8 +180,6 @@ def generate_Code(name_file):
         print("The file does not contain regular expressions")
         return
     AFDs = package.Automata.makeAutomata(ERs)
-    print(Functions)
-    print(newFunctions)
     analizer_Code(file_output, AFDs, Functions, newFunctions)
 
     file_input.close()

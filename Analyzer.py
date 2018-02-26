@@ -34,13 +34,10 @@ def automata_Search(AFD, startState, nodesAutomata, word):
 
 def main():
           
-    AFD_letra = {'q15': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q24': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q18': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q1': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q21': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q12': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q6': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q28': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q27': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q3': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}, 'q9': {'q15': ['f'], 'q9': ['d'], 'q24': ['i'], 'q1': ['a'], 'q21': ['h'], 'q12': ['e'], 'q6': ['c'], 'q18': ['g'], 'q3': ['b'], 'q27': ['j']}}
-    startState_letra = 'q28'
-    nodesAutomata_letra = {'q12': True, 'q24': True, 'q1': True, 'q27': True, 'q15': True, 'q6': True, 'q3': True, 'q9': True, 'q21': True, 'q28': False, 'q18': True}
-    AFDS = {'letra' : AFD_letra}
-    start_states = {'letra' : startState_letra}
-    nodes_automatas = {'letra' : nodesAutomata_letra}
-    functions = {'letra' : letra}
+    AFDS = {}
+    start_states = {}
+    nodes_automatas = {}
+    functions = {}
 
     word = sys.stdin.readline().strip('\n')
     word = list(map(str, word))
