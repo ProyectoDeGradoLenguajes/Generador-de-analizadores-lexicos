@@ -2,7 +2,7 @@
 import sys
 import math
 (O_O¬)
-letra:a(c*|d)*b{print('prueba joaquin')}
+letra:a{print('prueba joaquin')}
 (O_O¬)
 def testFunction():
     print("hello YAFP!")

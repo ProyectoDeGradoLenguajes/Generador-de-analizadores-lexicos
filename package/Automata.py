@@ -84,9 +84,9 @@ def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
     filename = g2.render(filename='graphs/automatas/' + nombre_archivo)
 
 
-def delete_limboState(AFN, startNode, nodesAutomata):
+def delete_limboState(AFN, startNode, new_nodes_automata):
     color = {}
-    for v in AFN:
+    for v in new_nodes_automata:
         color[v] = 'white'
     color[startNode] = 'gray'
     nodelist = [startNode]
@@ -95,12 +95,13 @@ def delete_limboState(AFN, startNode, nodesAutomata):
         for neighbor in AFN[u]:
             if color[neighbor] == 'white':
                 color[neighbor] = 'gray'
-                nodelist.append(neighbor)
+                if neighbor in AFN:
+                    nodelist.append(neighbor)
         color[u] = 'black'
     for state in color:
         if color[state] == "white":
             del AFN[state]
-            del nodesAutomata[state]
+            del new_nodes_automata[state]
     return AFN
 
 
@@ -108,15 +109,12 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
     AFD = {}
     newStates = {}
     num_state = 0
-
     nodes = list(nodesAutomata.keys())
     while nodes != []:
         node = nodes.pop(0)
-
         for symbol in alphabet:
             state = {}
             isNew = True
-
             if node in AFN:
                 for node2 in AFN[node].keys():
                     if symbol in AFN[node][node2]:
@@ -127,7 +125,6 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
                         for node2 in AFN[oldState].keys():
                             if symbol in AFN[oldState][node2]:
                                 state[node2] = 0
-
             if len(state) > 1:
                 for newState in newStates:
                     if newStates[newState] == state:
@@ -145,7 +142,6 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
                     nodes.append(nameState)
             else:
                 make_link_AFN(AFD, node, list(state.keys())[0], symbol)
-
     for newState in newStates:
         for oldState in newStates[newState]:
             if nodesAutomata[oldState]:
@@ -158,10 +154,17 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
     return AFD
 
 
-def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
-    word = ""
+def add_lambda_closure(lambda_closures, initial_state, neighbor):
+    if initial_state in lambda_closures:
+        lambda_closures[initial_state].append(neighbor)
+    else:
+        lambda_closures[initial_state] = [neighbor]
+    return lambda_closures
+
+
+def find_lambda_closure(AFN, lambda_closures, AFN_e, startNode, nodesAutomata, new_nodes_automata):
     color = {}
-    for v in AFN_e:
+    for v in nodesAutomata:
         color[v] = 'white'
     color[startNode] = 'gray'
     nodelist = [startNode]
@@ -170,26 +173,63 @@ def DFS_AFN(AFN_e, startNode, nodesAutomata, symbol, AFN):
         for neighbor in AFN_e[u]:
             if color[neighbor] == 'white':
                 color[neighbor] = 'gray'
-                nodelist.append(neighbor)
-            if AFN_e[u][neighbor] != "lambda":
-                word = word + AFN_e[u][neighbor]
-            if nodesAutomata[neighbor]:
-                if word == symbol:
-                    make_link_AFN(AFN, startNode, neighbor, symbol)
-            if color[neighbor] == "black":
-                word = ""
+            if AFN_e[u][neighbor] == 'lambda':
+                lambda_closures = add_lambda_closure(
+                    lambda_closures, startNode, neighbor)
+                if nodesAutomata[neighbor]:
+                    nodesAutomata[u] = nodesAutomata[neighbor]
+                if neighbor in AFN_e:
+                    nodelist.append(neighbor)
+            else:
+                if u not in AFN:
+                    AFN = make_link_AFN(AFN, u, neighbor, AFN_e[u][neighbor])
+                elif neighbor not in AFN[u]:
+                    AFN = make_link_AFN(AFN, u, neighbor, AFN_e[u][neighbor])
+                elif AFN_e[u][neighbor] not in AFN[u][neighbor]:
+                    AFN = make_link_AFN(AFN, u, neighbor, AFN_e[u][neighbor])
+                new_nodes_automata[u] = nodesAutomata[u]
+                new_nodes_automata[neighbor] = nodesAutomata[neighbor]
         color[u] = 'black'
-    return AFN
+    return lambda_closures, AFN, new_nodes_automata
+
+
+def delete_lambda_transitions(lambda_closures, AFN, alphabet, nodesAutomata, new_nodes_automata):
+    for state in lambda_closures:
+        for state_neighbor in lambda_closures[state]:
+            if state_neighbor in AFN:
+                for neighbor in AFN[state_neighbor]:
+                    for neighbor_transition in AFN[state_neighbor][neighbor]:
+                        for symbol in alphabet:
+                            if neighbor_transition == symbol:
+                                if state not in AFN:
+                                    AFN = make_link_AFN(
+                                        AFN, state, neighbor, symbol)
+                                elif neighbor not in AFN[state]:
+                                    AFN = make_link_AFN(
+                                        AFN, state, neighbor, symbol)
+                                elif symbol not in AFN[state][neighbor]:
+                                    AFN = make_link_AFN(
+                                        AFN, state, neighbor, symbol)
+                                new_nodes_automata[state] = nodesAutomata[state]
+                                new_nodes_automata[neighbor] = nodesAutomata[neighbor]
+
+    return AFN, new_nodes_automata
 
 
 def make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER):
+    new_nodes_automata = {}
     AFN = {}
-    for node in nodesAutomata.keys():
-        for symbol in alphabet:
-            AFN = DFS_AFN(AFN_e, node, nodesAutomata, symbol, AFN)
-    delete_limboState(AFN, "q" + str(startState), nodesAutomata)
-    drawAFN(AFN, startState, nodesAutomata, "AFN_" + id_ER)
-    return AFN
+    lambda_closures = {}
+    for node in AFN_e.keys():
+        lambda_closures, AFN, new_nodes_automata = find_lambda_closure(AFN,
+                                                                       lambda_closures, AFN_e, node, nodesAutomata, new_nodes_automata)
+    drawAFN(AFN, startState, new_nodes_automata, "AFN_1_" + id_ER)
+    AFN, new_nodes_automata = delete_lambda_transitions(
+        lambda_closures, AFN, alphabet, nodesAutomata, new_nodes_automata)
+    drawAFN(AFN, startState, new_nodes_automata, "AFN_2_" + id_ER)
+    delete_limboState(AFN, "q" + str(startState), new_nodes_automata)
+    drawAFN(AFN, startState, new_nodes_automata, "AFN_" + id_ER)
+    return AFN, new_nodes_automata
 
 
 def start_end_states(Tree, node):
@@ -379,8 +419,8 @@ def makeAutomata(ERs):
             node_tree += 1
 
         drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e_" + id_ER)
-        package.Parse_Tree.drawTree(Tree, "newtree" + id_ER)
-        AFN = make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER)
+        AFN, nodesAutomata = make_AFN(
+            AFN_e, startState, nodesAutomata, alphabet, id_ER)
         AFD = make_AFD(AFN, startState, nodesAutomata, alphabet, id_ER)
 
         AFDS[id_ER] = [AFD, startState, nodesAutomata]
