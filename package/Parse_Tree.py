@@ -159,14 +159,37 @@ def deleteMetaCharacters(ER):
     return ER
 
 
-def parseTree(ER):
+def separateTokens(ER, ids_token):
+    for id_token in ids_token:
+        location = str(ids_token.index(id_token))
+        ER = ER.replace(id_token, location)
+    ER = list(map(str, ER))
+    i = 0
+    while i < len(ER):
+        token = ER[i]
+        if token.isdigit():
+            ER.pop(i)
+            ER.insert(i, ids_token[int(token)])
+        i += 1
+    return ER
+
+
+def parseTree(ER, id_ER, ids_token):
     ER = "(" + ER + ")"
     ER = metaCharacters(ER)
-    ER = list(map(str, ER))
+    ER_with_ids = False
+
+    for id_token in ids_token:
+        if id_token in ER:
+            ER_with_ids = True
+            break
+
+    if ER_with_ids:
+        ER = separateTokens(ER, ids_token)
+    else:
+        ER = list(map(str, ER))
+
     ER = deleteMetaCharacters(ER)
     final_tree, alphabet = makeTree(ER)
-    drawTree(final_tree, "final")
-    return final_tree, alphabet
-
-
-#parseTree("(aa)*")
+    drawTree(final_tree, "_" + id_ER)
+    return final_tree, alphabet, ER_with_ids

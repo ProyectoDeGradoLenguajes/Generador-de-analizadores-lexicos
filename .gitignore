@@ -1,9 +1,7 @@
 *.pyc
 .idea/
-test.py
-test.txt
-img/
+test/
+graphs/
 .vscode/
 __pycache__/
-imgAutomatas/
 .DS_store

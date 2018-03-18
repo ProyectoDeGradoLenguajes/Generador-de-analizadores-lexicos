@@ -23,6 +23,38 @@ def analizer_Code(file, AFDs, Functions, newFunctions):
         file.write("\n \n" + Functions[function])
 
     file.write(""" 
+def compoused_automata_Search(AFD, startState, nodesAutomata, word, AFDS, start_states, nodes_automatas):
+    isAcepted = False
+    nextState = startState
+    count = 0
+    for symbol in word:
+        state = nextState
+        found = False
+        for neighbor in AFD[state]:
+            labels = AFD[state][neighbor]
+            for label in labels:
+                if label in AFDS:
+                    sub_automata = automata_Search(
+                        AFDS[label], start_states[label], nodes_automatas[label], symbol)
+                    if sub_automata:
+                        count += 1
+                        found = True
+                    elif not sub_automata and count > 0:
+                        nextState = neighbor
+                        found = True
+                        count = 0
+                elif label == symbol:
+                    nextState = neighbor
+                    found = True
+                    break
+
+        if not found:
+            return isAcepted
+
+    if nodesAutomata[nextState]:
+        isAcepted = True
+    return isAcepted
+
 
 def automata_Search(AFD, startState, nodesAutomata, word):
     numbers = {"1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight",
@@ -55,11 +87,13 @@ def main():
     completeAFD = ''
     start_states = ''
     nodes = ''
+    completeCompoused = ''
     dic_functions = ''
     for id_AFD in AFDs.keys():
         AFD = AFDs[id_AFD][0]
         startState = AFDs[id_AFD][1]
         nodesAutomata = AFDs[id_AFD][2]
+        compoused_automata = AFDs[id_AFD][3]
 
         id_name = "AFD_" + id_AFD
         file.write("    " + id_name + " = " + str(AFD) + "\n")
@@ -82,6 +116,14 @@ def main():
         else:
             nodes = nodes + "," + "'" + id_AFD + "'" + " : " + id_nodes
 
+        id_compoused = "compoused_" + id_AFD
+        file.write("    " + id_compoused + " = " +
+                   str(compoused_automata) + "\n\n")
+        if completeCompoused == '':
+            completeCompoused = "'" + id_AFD + "'" + " : " + id_compoused
+        else:
+            completeCompoused = completeCompoused + "," + "'" + id_AFD + "'" + " : " + id_compoused
+
         if dic_functions == '':
             dic_functions = "'" + id_AFD + "'" + " : " + id_AFD
         else:
@@ -89,18 +131,27 @@ def main():
     file.write("    AFDS = {" + str(completeAFD) + "}\n")
     file.write("    start_states = {" + str(start_states) + "}\n")
     file.write("    nodes_automatas = {" + str(nodes) + "}\n")
+    file.write("    is_compoused = {" + str(completeCompoused) + "}\n")
     file.write("    functions = {" + str(dic_functions) + "}\n")
     file.write("""
     word = sys.stdin.readline().strip('\\n')
     word = list(map(str, word))
 
+    result = False
     for id_AFD in AFDS.keys():
         AFD = AFDS[id_AFD]
         startState = start_states[id_AFD]
         nodesAutomata = nodes_automatas[id_AFD]
-        result = automata_Search(AFD, startState, nodesAutomata, word)
+        if is_compoused[id_AFD]:
+            result = compoused_automata_Search(
+                AFD, startState, nodesAutomata, word, AFDS, start_states, nodes_automatas)
+        else:
+            result = automata_Search(AFD, startState, nodesAutomata, word)
         if result:
             functions[id_AFD]()
+            break
+    if not result:
+        print("No se reconoce dentro del lenguaje")
 """)
 
     file.write("""
@@ -179,6 +230,7 @@ def generate_Code(name_file):
         os.remove("Analyzer.py")
         print("The file does not contain regular expressions")
         return
+
     AFDs = package.Automata.makeAutomata(ERs)
     analizer_Code(file_output, AFDs, Functions, newFunctions)
 

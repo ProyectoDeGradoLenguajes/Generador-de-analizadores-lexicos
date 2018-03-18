@@ -150,7 +150,7 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
                 make_state(nodesAutomata, False, newState)
 
     delete_limboState(AFD, "q" + str(startNode), nodesAutomata)
-    drawAFN(AFD, startNode, nodesAutomata, "AFD_" + id_ER)
+    # drawAFN(AFD, startNode, nodesAutomata, "AFD_" + id_ER)
     return AFD
 
 
@@ -223,12 +223,10 @@ def make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER):
     for node in AFN_e.keys():
         lambda_closures, AFN, new_nodes_automata = find_lambda_closure(AFN,
                                                                        lambda_closures, AFN_e, node, nodesAutomata, new_nodes_automata)
-    drawAFN(AFN, startState, new_nodes_automata, "AFN_1_" + id_ER)
     AFN, new_nodes_automata = delete_lambda_transitions(
         lambda_closures, AFN, alphabet, nodesAutomata, new_nodes_automata)
-    drawAFN(AFN, startState, new_nodes_automata, "AFN_2_" + id_ER)
     delete_limboState(AFN, "q" + str(startState), new_nodes_automata)
-    drawAFN(AFN, startState, new_nodes_automata, "AFN_" + id_ER)
+    # drawAFN(AFN, startState, new_nodes_automata, "AFN_" + id_ER)
     return AFN, new_nodes_automata
 
 
@@ -395,11 +393,11 @@ def select_transition(AFN_e, Tree, node, nodesAutomata, state, startState):
 
 
 def makeAutomata(ERs):
-    print(ERs)
     AFDS = {}
+    ids_token = list(ERs.keys())
     for id_ER in ERs.keys():
         ER = ERs[id_ER]
-        Tree, alphabet = package.Parse_Tree.parseTree(ER)
+        Tree, alphabet, compoused_automata = package.Parse_Tree.parseTree(ER, id_ER, ids_token)
         AFN_e = {}
         nodesAutomata = {}
 
@@ -418,11 +416,11 @@ def makeAutomata(ERs):
                                                                                   startState)
             node_tree += 1
 
-        drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e_" + id_ER)
+        #drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e_" + id_ER)
         AFN, nodesAutomata = make_AFN(
             AFN_e, startState, nodesAutomata, alphabet, id_ER)
-        AFD = make_AFD(AFN, startState, nodesAutomata, alphabet, id_ER)
+        #AFD = make_AFD(AFN, startState, nodesAutomata, alphabet, id_ER)
 
-        AFDS[id_ER] = [AFD, startState, nodesAutomata]
+        AFDS[id_ER] = [AFN, startState, nodesAutomata, compoused_automata]
 
     return AFDS

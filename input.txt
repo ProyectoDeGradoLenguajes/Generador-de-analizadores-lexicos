@@ -2,7 +2,11 @@
 import sys
 import math
 (O_O¬)
-letra:a{print('prueba joaquin')}
+letra:[a-z]+{print('esto es una letra')}
+numero:[0-9]+{print('esto es un numero')}
+id:letra(numero|letra)*{print('esto es un id')}
 (O_O¬)
 def testFunction():
     print("hello YAFP!")
+(O_O¬)
+agente:{nodo:0.25,comunidad:0.25,ambiente:0.25,objeto:0.25}
