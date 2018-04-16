@@ -1,0 +1,10 @@
+(O_O¬)
+import sys
+import math
+(O_O¬)
+lex_1:colour{print("color")} 
+lex_2:flavour{print("flavor")}
+lex_3:clever{print("inteligente")}
+lex_4:smart{print("elegante")} 
+lex_5:conservative{print("liberal")}
+(O_O¬)

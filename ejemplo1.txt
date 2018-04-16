@@ -1,0 +1,22 @@
+(O_O¬)
+import sys
+import math
+
+chars = 0
+words = 0
+lines = 0
+
+(O_O¬)
+letra:[a-z]+{global words; words += 1; global chars; chars += len(word)}
+
+(O_O¬)
+def main ():
+    name_file = sys.argv[1]
+    sentences = open(name_file, encoding="utf8")
+
+def printResults():
+    global chars
+    global words
+    global lines
+
+    print(chars, words, lines)

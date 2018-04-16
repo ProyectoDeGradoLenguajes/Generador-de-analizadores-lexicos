@@ -18,7 +18,7 @@ def create_file():
     return file
 
 
-def analizer_Code(file, AFDs, Functions, newFunctions):
+def analizer_Code(file, AFDs, Functions, newFunctions, new_mainLines):
     for function in Functions.keys():
         file.write("\n \n" + Functions[function])
 
@@ -133,28 +133,39 @@ def main():
     file.write("    nodes_automatas = {" + str(nodes) + "}\n")
     file.write("    is_compoused = {" + str(completeCompoused) + "}\n")
     file.write("    functions = {" + str(dic_functions) + "}\n")
-    file.write("""
-    word = sys.stdin.readline().strip('\\n')
-    word = list(map(str, word))
-
-    result = False
-    for id_AFD in AFDS.keys():
-        AFD = AFDS[id_AFD]
-        startState = start_states[id_AFD]
-        nodesAutomata = nodes_automatas[id_AFD]
-        if is_compoused[id_AFD]:
-            result = compoused_automata_Search(
-                AFD, startState, nodesAutomata, word, AFDS, start_states, nodes_automatas)
-        else:
-            result = automata_Search(AFD, startState, nodesAutomata, word)
-        if result:
-            functions[id_AFD]()
-            break
-    if not result:
-        print("No se reconoce dentro del lenguaje")
-""")
-
-    file.write("""
+    if len(new_mainLines) > 0:
+        for newLine in new_mainLines:
+            file.write("\n")
+            file.write(newLine)
+    else:
+        file.write("""
+    sentences = [sys.stdin.readline().strip('\\n')]
+            """)
+    file.write(""" 
+    for sentence in sentences:
+        words = sentence.split(' ')   
+        for word in words:
+            result = False
+            for id_AFD in AFDS.keys():
+                AFD = AFDS[id_AFD]
+                startState = start_states[id_AFD]
+                nodesAutomata = nodes_automatas[id_AFD]
+                if is_compoused[id_AFD]:
+                    result = compoused_automata_Search(
+                        AFD, startState, nodesAutomata, word, AFDS, start_states, nodes_automatas)
+                else:
+                    result = automata_Search(AFD, startState, nodesAutomata, word)
+                if result:
+                    functions[id_AFD](word)
+                    break
+            if not result:
+                print("No se reconoce dentro del lenguaje")\n""")
+    for newfunction in newFunctions:
+        file.write('    ' + newfunction + "\n")
+    if len(new_mainLines) > 0:
+        file.write("main()")
+    else:
+        file.write("""
 while True:
     main()""")
 
@@ -203,7 +214,8 @@ def generate_Code(name_file):
     ERs = {}
     Functions = {}
     newFunctions = []
-    countFuntions = 0
+    areMainLines = False
+    main_newLines = []
 
     counter = 0
     for line in file_input:
@@ -213,13 +225,20 @@ def generate_Code(name_file):
             line = separate_line(line)[:]
             ERs[line[0]] = line[1]
             nameFunction = line[0]
-            function = "def " + nameFunction + "():\n     " + line[2]
+            function = "def " + nameFunction + "(word):\n     " + line[2]
             Functions[nameFunction] = function
         elif line != token and counter == 3:
-            if "def" in line:
+            if 'main' in line and not areMainLines:
+                areMainLines = True
+            elif "def" in line:
+                areMainLines = False
                 thisLine = re.split('[\s]+', line)
                 newFunctions.append(thisLine[1].strip(":"))
-            file_output.write(line)
+                file_output.write(line)
+            elif areMainLines:
+                main_newLines.append(line)                               
+            else:
+                file_output.write(line)
         else:
             counter += 1
 
@@ -232,7 +251,7 @@ def generate_Code(name_file):
         return
 
     AFDs = package.Automata.makeAutomata(ERs)
-    analizer_Code(file_output, AFDs, Functions, newFunctions)
+    analizer_Code(file_output, AFDs, Functions, newFunctions, main_newLines)
 
     file_input.close()
     file_output.close()
