@@ -2,21 +2,28 @@
 import sys
 import math
 
-chars = 0
-words = 0
-lines = 0
+palabras = 0
+numeros = 0
+ids = 0
 
 (O_O¬)
-letra:[a-z]+{global words; words += 1; global chars; chars += len(word)}
-
+palabra:[a-z]+{print(word, "es una palabra")}
+numero:[0-9]+{print(word, "e s una numero")}
+id:palabra(numero|palabra)+{print(word , "es un id")}
 (O_O¬)
 def main ():
     name_file = sys.argv[1]
     sentences = open(name_file, encoding="utf8")
 
 def printResults():
-    global chars
-    global words
-    global lines
+    global letras
+    global numeros
+    global ids
 
-    print(chars, words, lines)
+    print("palabras = ", palabras, " mumeros = ", numeros, " ids = ", ids)
+(O_O¬)
+FuturoInperfecto:era${print("futuro inperfecto")}
+(O_O¬)
+mujer:{"significado1":13.78,"significado2":25.17,"significado3":25.25,"significado4":35.8}
+
+

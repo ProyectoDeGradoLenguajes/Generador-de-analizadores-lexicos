@@ -1,4 +1,5 @@
 import sys
+import graphviz as graph
 import package.Parse_Tree
 
 
@@ -29,6 +30,59 @@ def make_link_tree(G, node1, node2, token):
 def make_state(nodesAutomata, aceptation, name):
     nodesAutomata[name] = aceptation
     return nodesAutomata
+
+
+def drawAFN(G, startState, nodesAutomata, nombre_archivo):
+    g2 = graph.Digraph(format='png')
+    g2.attr("graph", _attributes={"rankdir": "LR"})
+    g2.node("start", _attributes={"shape": "point",
+                                  "color": "white", "fontcolor": "white"})
+    g2.edge("start", "q" + str(startState))
+    for node1 in G:
+        if nodesAutomata[node1] == True:
+            g2.node(node1, _attributes={
+                    "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+        else:
+            g2.node(str(node1))
+            g2.node(node1, _attributes={"shape": "circle"})
+
+        for node2 in G[node1]:
+            if nodesAutomata[node2] == True:
+                g2.node(node2, _attributes={
+                        "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+            else:
+                g2.node(str(node2))
+                g2.node(node2, _attributes={"shape": "circle"})
+            for _label_ in G[node1][node2]:
+                g2.edge(str(node1), str(node2), label=_label_)
+    filename = g2.render(filename='graphs/automatas/' + nombre_archivo)
+
+
+def drawAFNe(G, startState, nodesAutomata, nombre_archivo):
+    g2 = graph.Digraph(format='png')
+    g2.attr("graph", _attributes={"rankdir": "LR"})
+    g2.node("start", _attributes={"shape": "point",
+                                  "color": "white", "fontcolor": "white"})
+    g2.edge("start", "q" + str(startState))
+
+    for node1 in G:
+        if nodesAutomata[node1] == True:
+            g2.node(node1, _attributes={
+                    "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+        else:
+            g2.node(str(node1))
+            g2.node(node1, _attributes={"shape": "circle"})
+
+        for node2 in G[node1]:
+            if nodesAutomata[node2] == True:
+                g2.node(node2, _attributes={
+                        "shape": "doublecircle", "color": "black", "fontcolor": "black"})
+            else:
+                g2.node(str(node2))
+                g2.node(node2, _attributes={"shape": "circle"})
+            g2.edge(str(node1), str(node2), label=G[node1][node2])
+    filename = g2.render(filename='graphs/automatas/' + nombre_archivo)
+
 
 def delete_limboState(AFN, startNode, new_nodes_automata):
     color = {}
@@ -96,6 +150,7 @@ def make_AFD(AFN, startNode, nodesAutomata, alphabet, id_ER):
                 make_state(nodesAutomata, False, newState)
 
     delete_limboState(AFD, "q" + str(startNode), nodesAutomata)
+    # drawAFN(AFD, startNode, nodesAutomata, "AFD_" + id_ER)
     return AFD
 
 
@@ -171,6 +226,7 @@ def make_AFN(AFN_e, startState, nodesAutomata, alphabet, id_ER):
     AFN, new_nodes_automata = delete_lambda_transitions(
         lambda_closures, AFN, alphabet, nodesAutomata, new_nodes_automata)
     delete_limboState(AFN, "q" + str(startState), new_nodes_automata)
+    # drawAFN(AFN, startState, new_nodes_automata, "AFN_" + id_ER)
     return AFN, new_nodes_automata
 
 
@@ -360,8 +416,10 @@ def makeAutomata(ERs):
                                                                                   startState)
             node_tree += 1
 
+        #drawAFNe(AFN_e, startState, nodesAutomata, "AFN-e_" + id_ER)
         AFN, nodesAutomata = make_AFN(
             AFN_e, startState, nodesAutomata, alphabet, id_ER)
+        #AFD = make_AFD(AFN, startState, nodesAutomata, alphabet, id_ER)
 
         AFDS[id_ER] = [AFN, startState, nodesAutomata, compoused_automata]
 

@@ -1,3 +1,4 @@
+import graphviz as graph
 import sys
 
 
@@ -6,6 +7,16 @@ def make_link(G, node1, node2):
         G[node1] = {}
     (G[node1])[node2] = 1
     return G
+
+
+def drawTree(G, etiqueta):
+    g2 = graph.Digraph(format='png')
+    for node1 in G:
+        for node2 in G[node1]:
+            g2.node(str(node1))
+            g2.node(str(node2))
+            g2.edge(str(node1), str(node2))
+    filename = g2.render(filename='graphs/parse_tree/g' + etiqueta)
 
 
 def op_unary(tree, character, node, pair):
@@ -180,4 +191,5 @@ def parseTree(ER, id_ER, ids_token):
 
     ER = deleteMetaCharacters(ER)
     final_tree, alphabet = makeTree(ER)
+    drawTree(final_tree, "_" + id_ER)
     return final_tree, alphabet, ER_with_ids

@@ -20,9 +20,43 @@ def create_file():
 
 def analizer_Code(file, AFDs, Functions, newFunctions, new_mainLines):
     for function in Functions.keys():
-        file.write("\n \n" + Functions[function])
+        file.write("\n \n" + Functions[function][0])
 
     file.write(""" 
+def mmult(A,B):
+    AB = [[0 for k in range(len(B[0]))] for j in range(len(A))]
+    for i,row in enumerate(A):
+        for j,col in enumerate([list(c) for c in zip(*B)]):
+            AB[i][j] = sum([a*b for a,b in zip(row,col)])
+    return AB
+
+def markovMatrix(matrixes): 
+    hola_meaning = [[13.78,28.74,28.74,28.74,28.74],[24.9433,25.17,24.9433,24.9433],[24.9167,24.9167,25.25,24.9167],[21.4,21.4,21.4,35.8]]
+    matrix_initial = [hola_meaning]
+    if len(matrixes) == 0:
+        for matrix in matrix_initial:
+            matrixes.append(mmult(matrix,matrix))
+    else:
+        matrixes_new = []
+        for i in range(len(matrixes)):
+            matrixes_new.append(mmult(matrixes[i],matrix_initial[i]))
+        matrixes = matrixes_new[:]
+    return matrixes
+
+def printMarkov(dicYAFP, matrixes):
+    listYAFP = list(dicYAFP.keys())
+    toString = ""
+    i = 1
+    j = 0
+    for matrix in matrixes:
+        if i == 1:
+            toString =  toString + "\\n" + listYAFP[j] + "_meaning :"
+            j+=1
+            i-=1            
+        for i in range(len(matrix)):
+            toString = toString + str(matrix[i][i]/100) + " ,"
+    print(toString)
+
 def compoused_automata_Search(AFD, startState, nodesAutomata, word, AFDS, start_states, nodes_automatas):
     isAcepted = False
     nextState = startState
@@ -81,7 +115,8 @@ def automata_Search(AFD, startState, nodesAutomata, word):
     return isAcepted
 
 def main():
-          
+    nlp = spacy.load('es')
+    unrecognized = []          
 """
                )
     completeAFD = ''
@@ -89,50 +124,65 @@ def main():
     nodes = ''
     completeCompoused = ''
     dic_functions = ''
-    for id_AFD in AFDs.keys():
-        AFD = AFDs[id_AFD][0]
-        startState = AFDs[id_AFD][1]
-        nodesAutomata = AFDs[id_AFD][2]
-        compoused_automata = AFDs[id_AFD][3]
+    verb_dic_functions = ''
 
-        id_name = "AFD_" + id_AFD
-        file.write("    " + id_name + " = " + str(AFD) + "\n")
-        if completeAFD == '':
-            completeAFD = "'" + id_AFD + "'" + " : " + id_name
-        else:
-            completeAFD = completeAFD + "," + "'" + id_AFD + "'" + " : " + id_name
+    for id_AFD in Functions.keys():
 
-        id_startstate = "startState_" + id_AFD
-        file.write("    " + id_startstate + " = 'q" + str(startState) + "'\n")
-        if start_states == '':
-            start_states = "'" + id_AFD + "'" + " : " + id_startstate
-        else:
-            start_states = start_states + "," + "'" + id_AFD + "'" + " : " + id_startstate
+        if id_AFD in AFDs.keys():
+            AFD = AFDs[id_AFD][0]
+            startState = AFDs[id_AFD][1]
+            nodesAutomata = AFDs[id_AFD][2]
+            compoused_automata = AFDs[id_AFD][3]
 
-        id_nodes = "nodesAutomata_" + id_AFD
-        file.write("    " + id_nodes + " = " + str(nodesAutomata) + "\n")
-        if nodes == '':
-            nodes = "'" + id_AFD + "'" + " : " + id_nodes
-        else:
-            nodes = nodes + "," + "'" + id_AFD + "'" + " : " + id_nodes
+            id_name = "AFD_" + id_AFD
+            file.write("    " + id_name + " = " + str(AFD) + "\n")
+            if completeAFD == '':
+                completeAFD = "'" + id_AFD + "'" + " : " + id_name
+            else:
+                completeAFD = completeAFD + "," + "'" + id_AFD + "'" + " : " + id_name
 
-        id_compoused = "compoused_" + id_AFD
-        file.write("    " + id_compoused + " = " +
-                   str(compoused_automata) + "\n\n")
-        if completeCompoused == '':
-            completeCompoused = "'" + id_AFD + "'" + " : " + id_compoused
-        else:
-            completeCompoused = completeCompoused + "," + "'" + id_AFD + "'" + " : " + id_compoused
+            id_startstate = "startState_" + id_AFD
+            file.write("    " + id_startstate +
+                       " = 'q" + str(startState) + "'\n")
+            if start_states == '':
+                start_states = "'" + id_AFD + "'" + " : " + id_startstate
+            else:
+                start_states = start_states + "," + "'" + id_AFD + "'" + " : " + id_startstate
 
-        if dic_functions == '':
-            dic_functions = "'" + id_AFD + "'" + " : " + id_AFD
-        else:
-            dic_functions = dic_functions + "," + "'" + id_AFD + "'" + " : " + id_AFD
+            id_nodes = "nodesAutomata_" + id_AFD
+            file.write("    " + id_nodes + " = " + str(nodesAutomata) + "\n")
+            if nodes == '':
+                nodes = "'" + id_AFD + "'" + " : " + id_nodes
+            else:
+                nodes = nodes + "," + "'" + id_AFD + "'" + " : " + id_nodes
+
+            id_compoused = "compoused_" + id_AFD
+            file.write("    " + id_compoused + " = " +
+                       str(compoused_automata) + "\n\n")
+            if completeCompoused == '':
+                completeCompoused = "'" + id_AFD + "'" + " : " + id_compoused
+            else:
+                completeCompoused = completeCompoused + "," + \
+                    "'" + id_AFD + "'" + " : " + id_compoused
+
+            if Functions[id_AFD][1] == 2:
+                if dic_functions == '':
+                    dic_functions = "'" + id_AFD + "'" + " : " + id_AFD
+                else:
+                    dic_functions = dic_functions + "," + "'" + id_AFD + "'" + " : " + id_AFD
+        elif Functions[id_AFD][1] == 4:
+            if verb_dic_functions == '':
+                verb_dic_functions = "'" + id_AFD + "'" + " : " + id_AFD
+            else:
+                verb_dic_functions = verb_dic_functions + \
+                    "," + "'" + id_AFD + "'" + " : " + id_AFD
+
     file.write("    AFDS = {" + str(completeAFD) + "}\n")
     file.write("    start_states = {" + str(start_states) + "}\n")
     file.write("    nodes_automatas = {" + str(nodes) + "}\n")
     file.write("    is_compoused = {" + str(completeCompoused) + "}\n")
     file.write("    functions = {" + str(dic_functions) + "}\n")
+    file.write("    VERB_functions = {" + str(verb_dic_functions) + "}\n")
     if len(new_mainLines) > 0:
         for newLine in new_mainLines:
             file.write("\n")
@@ -141,7 +191,9 @@ def main():
         file.write("""
     sentences = [sys.stdin.readline().strip('\\n')]
             """)
-    file.write(""" 
+    file.write("""
+    matrixes = []
+    dictionaryYAFP = {"mujer":0}
     for sentence in sentences:
         words = sentence.split(' ')   
         for word in words:
@@ -156,10 +208,25 @@ def main():
                 else:
                     result = automata_Search(AFD, startState, nodesAutomata, word)
                 if result:
-                    functions[id_AFD](word)
+                    if word in dictionaryYAFP:
+                        matrixes = markovMatrix(matrixes)[:]
+                    doc = nlp(word)
+                    for w in doc:
+                        if w.pos_ == "VERB":
+                            is_conjugated=False
+                            for function in VERB_functions.keys():
+                                if VERB_functions[function](word):
+                                    is_conjugated = True
+                                    break
+                            if not is_conjugated:
+                                print("<<", word, ">> => es un verbo")                                    
+                        else:                            
+                            functions[id_AFD](word)
                     break
             if not result:
-                print("No se reconoce dentro del lenguaje")\n""")
+                unrecognized.append(word)
+    print(\" No se reconocio dentro del lenguaje, los siguientes caracteres:\\n \", unrecognized)
+    printMarkov(dictionaryYAFP, matrixes)\n""")
     for newfunction in newFunctions:
         file.write('    ' + newfunction + "\n")
     if len(new_mainLines) > 0:
@@ -210,7 +277,7 @@ def generate_Code(name_file):
         return
 
     file_output = create_file()
-    file_output.write("import sys \n")
+    file_output.write("import sys \nimport spacy \nimport re \n")
     ERs = {}
     Functions = {}
     newFunctions = []
@@ -226,7 +293,7 @@ def generate_Code(name_file):
             ERs[line[0]] = line[1]
             nameFunction = line[0]
             function = "def " + nameFunction + "(word):\n     " + line[2]
-            Functions[nameFunction] = function
+            Functions[nameFunction] = [function, counter]
         elif line != token and counter == 3:
             if 'main' in line and not areMainLines:
                 areMainLines = True
@@ -236,9 +303,19 @@ def generate_Code(name_file):
                 newFunctions.append(thisLine[1].strip(":"))
                 file_output.write(line)
             elif areMainLines:
-                main_newLines.append(line)                               
+                main_newLines.append(line)
             else:
                 file_output.write(line)
+        elif line != token and counter == 4:
+            line = separate_line(line)[:]
+            nameFunction = line[0]
+            function = "def " + nameFunction + \
+                "(word):\n\t" + "if re.search(\'" + \
+                line[1] + "\', word):\n\t" + \
+                "\tprint(\"<<\", word, \">> => es un verbo en " + nameFunction + \
+                "\")\n\t\t" + line[2] + \
+                "\t\treturn True" + "\n\treturn False"
+            Functions[nameFunction] = [function, counter]
         else:
             counter += 1
 
