@@ -3,36 +3,53 @@ import spacy
 import re 
 import math
 
-palabras = 0
-numeros = 0
-ids = 0
-
-def printResults():
-    global letras
-    global numeros
-    global ids
-
-    print("palabras = ", palabras, " mumeros = ", numeros, " ids = ", ids)
 
  
-def palabra(word):
-     print(word, "es una palabra")
+def id(word):
+     print(word , " => es un id")
 
  
-def FuturoInperfecto(word):
-	if re.search('era$', word):
-		print("<<", word, ">> => es un verbo en FuturoInperfecto")
-		print("futuro inperfecto")
+def comparadores(word):
+     print(word, " es un comparador")
+
+ 
+def PresenteSimple(word):
+	if re.search('(tion)$', word):
+		print("<<", word, ">> => es un verbo en PresenteSimple")
+		print("hello")
 		return True
 	return False
  
 def numero(word):
-     print(word, "e s una numero")
+     print(word, " => es un numero")
 
  
-def id(word):
-     print(word , "es un id")
+def retorno(word):
+     print(word, " => reservada para retorno")
+
  
+def palabra(word):
+     pass
+
+ 
+def log(word):
+     print(word, " => reservada para impresion en pantalla")
+
+ 
+def fin(word):
+     print(word, " => reservada para finalizar sentencia")
+
+ 
+def func(word):
+     print(word , " => reservada para funcion")
+
+ 
+def FuturoInperfecto(word):
+	if re.search('(aba)$', word):
+		print("<<", word, ">> => es un verbo en FuturoInperfecto")
+		
+		return True
+	return False 
 def mmult(A,B):
     AB = [[0 for k in range(len(B[0]))] for j in range(len(A))]
     for i,row in enumerate(A):
@@ -127,27 +144,52 @@ def automata_Search(AFD, startState, nodesAutomata, word):
 def main():
     nlp = spacy.load('es')
     unrecognized = []          
-    AFD_palabra = {'q57': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q15': ['f'], 'q1': ['a'], 'q69': ['x'], 'q24': ['i'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q54': ['s'], 'q6': ['c'], 'q63': ['v'], 'q21': ['h'], 'q60': ['u'], 'q9': ['d'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q30': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q15': ['f'], 'q1': ['a'], 'q69': ['x'], 'q24': ['i'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q54': ['s'], 'q6': ['c'], 'q63': ['v'], 'q21': ['h'], 'q60': ['u'], 'q9': ['d'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q42': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q9': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q15': ['f'], 'q1': ['a'], 'q69': ['x'], 'q24': ['i'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q54': ['s'], 'q6': ['c'], 'q63': ['v'], 'q21': ['h'], 'q60': ['u'], 'q9': ['d'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q76': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q54': ['s'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q39': ['n'], 'q72': ['y'], 'q12': ['e'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q60': ['u'], 'q15': ['f'], 'q48': ['q'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q42': ['o']}, 'q1': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q51': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q3': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q63': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q6': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q45': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q21': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q33': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q54': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q18': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q69': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q27': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q15': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q75': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q72': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q12': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q24': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q60': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q54': ['s'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q39': ['n'], 'q72': ['y'], 'q12': ['e'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q60': ['u'], 'q15': ['f'], 'q48': ['q'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q42': ['o']}, 'q48': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q39': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q66': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}, 'q36': {'q57': ['t'], 'q30': ['k'], 'q45': ['p'], 'q9': ['d'], 'q69': ['x'], 'q1': ['a'], 'q75': ['z'], 'q51': ['r'], 'q12': ['e'], 'q72': ['y'], 'q60': ['u'], 'q6': ['c'], 'q63': ['v'], 'q24': ['i'], 'q21': ['h'], 'q54': ['s'], 'q15': ['f'], 'q48': ['q'], 'q42': ['o'], 'q3': ['b'], 'q18': ['g'], 'q33': ['l'], 'q66': ['w'], 'q36': ['m'], 'q27': ['j'], 'q39': ['n']}}
-    startState_palabra = 'q76'
-    nodesAutomata_palabra = {'q57': True, 'q30': True, 'q9': True, 'q60': True, 'q76': False, 'q1': True, 'q51': True, 'q63': True, 'q21': True, 'q3': True, 'q18': True, 'q27': True, 'q45': True, 'q15': True, 'q69': True, 'q75': True, 'q72': True, 'q12': True, 'q6': True, 'q24': True, 'q54': True, 'q48': True, 'q42': True, 'q33': True, 'q66': True, 'q36': True, 'q39': True}
-    compoused_palabra = False
-
-    AFD_numero = {'q15': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q1': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q28': {'q21': ['seven'], 'q15': ['five'], 'q9': ['three'], 'q18': ['six'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q3': ['one'], 'q24': ['eight']}, 'q12': {'q21': ['seven'], 'q27': ['nine'], 'q15': ['five'], 'q9': ['three'], 'q12': ['four'], 'q6': ['two'], 'q18': ['six'], 'q24': ['eight'], 'q3': ['one'], 'q1': ['zero']}, 'q24': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q6': {'q21': ['seven'], 'q27': ['nine'], 'q15': ['five'], 'q9': ['three'], 'q12': ['four'], 'q6': ['two'], 'q18': ['six'], 'q24': ['eight'], 'q3': ['one'], 'q1': ['zero']}, 'q21': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q27': {'q21': ['seven'], 'q27': ['nine'], 'q15': ['five'], 'q9': ['three'], 'q12': ['four'], 'q6': ['two'], 'q18': ['six'], 'q24': ['eight'], 'q3': ['one'], 'q1': ['zero']}, 'q9': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q3': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}, 'q18': {'q21': ['seven'], 'q9': ['three'], 'q15': ['five'], 'q1': ['zero'], 'q12': ['four'], 'q6': ['two'], 'q27': ['nine'], 'q24': ['eight'], 'q3': ['one'], 'q18': ['six']}}
-    startState_numero = 'q28'
-    nodesAutomata_numero = {'q15': True, 'q28': False, 'q12': True, 'q6': True, 'q1': True, 'q24': True, 'q21': True, 'q9': True, 'q3': True, 'q18': True, 'q27': True}
-    compoused_numero = False
-
-    AFD_id = {'q6': {'q3': ['palabra'], 'q1': ['numero']}, 'q5': {'q6': ['palabra']}, 'q3': {'q3': ['palabra'], 'q1': ['numero']}, 'q1': {'q3': ['palabra'], 'q1': ['numero']}}
+    AFD_id = {'q6': {'q3': ['palabra'], 'q1': ['numero']}, 'q3': {'q3': ['palabra'], 'q1': ['numero']}, 'q5': {'q6': ['palabra']}, 'q1': {'q3': ['palabra'], 'q1': ['numero']}}
     startState_id = 'q5'
-    nodesAutomata_id = {'q6': False, 'q5': False, 'q3': True, 'q1': True}
+    nodesAutomata_id = {'q6': True, 'q3': True, 'q5': False, 'q1': True}
     compoused_id = True
 
-    AFDS = {'palabra' : AFD_palabra,'numero' : AFD_numero,'id' : AFD_id}
-    start_states = {'palabra' : startState_palabra,'numero' : startState_numero,'id' : startState_id}
-    nodes_automatas = {'palabra' : nodesAutomata_palabra,'numero' : nodesAutomata_numero,'id' : nodesAutomata_id}
-    is_compoused = {'palabra' : compoused_palabra,'numero' : compoused_numero,'id' : compoused_id}
-    functions = {'palabra' : palabra,'numero' : numero,'id' : id}
-    VERB_functions = {'FuturoInperfecto' : FuturoInperfecto}
+    AFD_comparadores = {'q10': {'q12': ['=']}, 'q5': {'q7': ['=']}, 'q24': {'q10': ['>'], 'q5': ['<'], 'q21': ['!'], 'q18': ['>'], 'q1': ['='], 'q15': ['<']}, 'q21': {'q23': ['=']}, 'q1': {'q3': ['=']}}
+    startState_comparadores = 'q24'
+    nodesAutomata_comparadores = {'q10': False, 'q3': True, 'q5': False, 'q23': True, 'q21': False, 'q12': True, 'q24': False, 'q18': True, 'q1': False, 'q15': True, 'q7': True}
+    compoused_comparadores = False
+
+    AFD_numero = {'q3': {'q6': ['two'], 'q21': ['seven'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q1': ['zero'], 'q24': ['eight'], 'q9': ['three'], 'q12': ['four'], 'q3': ['one']}, 'q27': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q21': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q6': {'q6': ['two'], 'q21': ['seven'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q1': ['zero'], 'q24': ['eight'], 'q9': ['three'], 'q12': ['four'], 'q3': ['one']}, 'q24': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q18': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q1': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q15': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q12': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}, 'q28': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q1': ['zero'], 'q24': ['eight'], 'q9': ['three'], 'q12': ['four'], 'q21': ['seven']}, 'q9': {'q6': ['two'], 'q3': ['one'], 'q18': ['six'], 'q27': ['nine'], 'q15': ['five'], 'q21': ['seven'], 'q1': ['zero'], 'q24': ['eight'], 'q12': ['four'], 'q9': ['three']}}
+    startState_numero = 'q28'
+    nodesAutomata_numero = {'q6': True, 'q3': True, 'q1': True, 'q21': True, 'q28': False, 'q12': True, 'q24': True, 'q18': True, 'q27': True, 'q15': True, 'q9': True}
+    compoused_numero = False
+
+    AFD_retorno = {'q0': {'q1': ['retorno']}, 'q1': {'q1': ['retorno']}}
+    startState_retorno = 'q0'
+    nodesAutomata_retorno = {'q0': True, 'q1': True}
+    compoused_retorno = True
+
+    AFD_palabra = {'q54': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q36': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q42': ['o'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q3': ['b'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q12': ['e'], 'q9': ['d']}, 'q72': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q42': ['o'], 'q33': ['l'], 'q27': ['j'], 'q1': ['a'], 'q6': ['c'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q63': ['v'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q3': ['b'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q12': ['e'], 'q48': ['q'], 'q9': ['d']}, 'q42': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q21': ['h'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q66': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q45': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q60': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q57': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q42': ['o'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q3': ['b'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q12': ['e'], 'q9': ['d']}, 'q75': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q27': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q15': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q63': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q9': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q6': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q39': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q3': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q1': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q76': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q21': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q69': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q51': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q12': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q30': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q24': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q21': ['h'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q18': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q21': ['h'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}, 'q33': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q36': ['m'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q9': ['d'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q18': ['g'], 'q27': ['j'], 'q15': ['f'], 'q63': ['v'], 'q48': ['q'], 'q21': ['h']}, 'q48': {'q72': ['y'], 'q39': ['n'], 'q57': ['t'], 'q3': ['b'], 'q33': ['l'], 'q1': ['a'], 'q6': ['c'], 'q42': ['o'], 'q54': ['s'], 'q69': ['x'], 'q66': ['w'], 'q51': ['r'], 'q75': ['z'], 'q12': ['e'], 'q45': ['p'], 'q30': ['k'], 'q60': ['u'], 'q24': ['i'], 'q27': ['j'], 'q18': ['g'], 'q36': ['m'], 'q15': ['f'], 'q21': ['h'], 'q63': ['v'], 'q48': ['q'], 'q9': ['d']}}
+    startState_palabra = 'q76'
+    nodesAutomata_palabra = {'q72': True, 'q54': True, 'q36': True, 'q66': True, 'q57': True, 'q45': True, 'q60': True, 'q75': True, 'q1': True, 'q15': True, 'q63': True, 'q9': True, 'q18': True, 'q6': True, 'q39': True, 'q3': True, 'q27': True, 'q76': False, 'q21': True, 'q69': True, 'q51': True, 'q12': True, 'q30': True, 'q24': True, 'q42': True, 'q33': True, 'q48': True}
+    compoused_palabra = False
+
+    AFD_log = {'q0': {'q1': ['log']}}
+    startState_log = 'q0'
+    nodesAutomata_log = {'q0': False, 'q1': True}
+    compoused_log = True
+
+    AFD_fin = {'q0': {'q1': ['e']}, 'q3': {'q5': ['d']}, 'q5': {'q1': ['e']}, 'q1': {'q3': ['n']}}
+    startState_fin = 'q0'
+    nodesAutomata_fin = {'q0': True, 'q3': False, 'q5': True, 'q1': False}
+    compoused_fin = False
+
+    AFD_func = {'q0': {'q1': ['func']}, 'q3': {'q5': ['o']}, 'q5': {'q7': ['n']}, 'q1': {'q3': ['i']}, 'q7': {'q1': ['func']}}
+    startState_func = 'q0'
+    nodesAutomata_func = {'q0': True, 'q3': False, 'q5': False, 'q1': False, 'q7': True}
+    compoused_func = True
+
+    AFDS = {'id' : AFD_id,'comparadores' : AFD_comparadores,'numero' : AFD_numero,'retorno' : AFD_retorno,'palabra' : AFD_palabra,'log' : AFD_log,'fin' : AFD_fin,'func' : AFD_func}
+    start_states = {'id' : startState_id,'comparadores' : startState_comparadores,'numero' : startState_numero,'retorno' : startState_retorno,'palabra' : startState_palabra,'log' : startState_log,'fin' : startState_fin,'func' : startState_func}
+    nodes_automatas = {'id' : nodesAutomata_id,'comparadores' : nodesAutomata_comparadores,'numero' : nodesAutomata_numero,'retorno' : nodesAutomata_retorno,'palabra' : nodesAutomata_palabra,'log' : nodesAutomata_log,'fin' : nodesAutomata_fin,'func' : nodesAutomata_func}
+    is_compoused = {'id' : compoused_id,'comparadores' : compoused_comparadores,'numero' : compoused_numero,'retorno' : compoused_retorno,'palabra' : compoused_palabra,'log' : compoused_log,'fin' : compoused_fin,'func' : compoused_func}
+    functions = {'id' : id,'comparadores' : comparadores,'numero' : numero,'retorno' : retorno,'palabra' : palabra,'log' : log,'fin' : fin,'func' : func}
+    VERB_functions = {'PresenteSimple' : PresenteSimple,'FuturoInperfecto' : FuturoInperfecto}
 
     name_file = sys.argv[1]
 
@@ -175,20 +217,18 @@ def main():
                         matrixes = markovMatrix(matrixes)[:]
                     doc = nlp(word)
                     for w in doc:
-                        if w.pos_ == "VERB":
                             is_conjugated=False
                             for function in VERB_functions.keys():
                                 if VERB_functions[function](word):
                                     is_conjugated = True
                                     break
-                            if not is_conjugated:
+                            if not is_conjugated and w.pos_ == "VERB":
                                 print("<<", word, ">> => es un verbo")                                    
-                        else:                            
-                            functions[id_AFD](word)
+                            else:                            
+                                functions[id_AFD](word)
                     break
             if not result:
                 unrecognized.append(word)
     print(" No se reconocio dentro del lenguaje, los siguientes caracteres:\n ", unrecognized)
     printMarkov(dictionaryYAFP, matrixes)
-    printResults()
 main()

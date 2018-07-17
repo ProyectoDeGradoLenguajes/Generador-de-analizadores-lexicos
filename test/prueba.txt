@@ -1,3 +1,8 @@
-yo amare , ame y amo a mi mama .
-yo estaba escribiendo y me quede sin imaginacion .
-yo estaba tirando con mi novia .
+funcion factoriaba ( numero )
+if ( numero == 0 ) {
+retorno ( 1 )
+}
+retorno ( numero * factoriaba ( numero - 1 ) )
+end funcion
+log ( " prueba de recursividad " )
+log ( factoriaba ( 4 ) )

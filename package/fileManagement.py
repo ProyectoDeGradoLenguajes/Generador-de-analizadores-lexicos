@@ -212,14 +212,13 @@ def main():
                         matrixes = markovMatrix(matrixes)[:]
                     doc = nlp(word)
                     for w in doc:
-                        if w.pos_ == "VERB":
-                            is_conjugated=False
-                            for function in VERB_functions.keys():
-                                if VERB_functions[function](word):
-                                    is_conjugated = True
-                                    break
-                            if not is_conjugated:
-                                print("<<", word, ">> => es un verbo")                                    
+                        is_conjugated=False
+                        for function in VERB_functions.keys():
+                            if VERB_functions[function](word):
+                                is_conjugated = True
+                                break
+                        if not is_conjugated and w.pos_ == "VERB":
+                            print("<<", word, ">> => es un verbo")                                    
                         else:                            
                             functions[id_AFD](word)
                     break

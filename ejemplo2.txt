@@ -1,10 +1,21 @@
 (O_O¬)
 import sys
 import math
+
 (O_O¬)
-lex_1:colour{print("color")} 
-lex_2:flavour{print("flavor")}
-lex_3:clever{print("inteligente")}
-lex_4:smart{print("elegante")} 
-lex_5:conservative{print("liberal")}
+comparadores:==|<=|>=|<|>|!={print(word, " es un comparador")}
+palabra:[a-z]+{pass}
+numero:[0-9]+{print(word, " => es un numero")}
+func:(funcion)*{print(word , " => reservada para funcion")}
+id:palabra(numero|palabra)*{print(word , " => es un id")}
+log:log{print(word, " => reservada para impresion en pantalla")}
+retorno:(retorno)*{print(word, " => reservada para retorno")}
+fin:(end)*{print(word, " => reservada para finalizar sentencia")}
 (O_O¬)
+def main ():
+    name_file = sys.argv[1]
+    sentences = open(name_file, encoding="utf8")
+
+(O_O¬)
+PresenteSimple:(tion)${print("hello")}
+FuturoInperfecto:(aba)${}
